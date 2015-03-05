@@ -30,7 +30,7 @@ leer_entrada(X):- write('escoge cualidades: '), read(X).
 
 jugar_maquina(Acc,NAcc):- random_select(X,Acc,NAcc), do_accion(X).
 
-jugar:- 
+facil:- 
     %recuperar lista de acciones disponibles para la maquina.
     acciones_maquina(L),
     %Pm -> personaje maquina, Lb-> lista inicial, La-> Lb-Pm
@@ -41,4 +41,4 @@ jugar:-
     jugar(L, Pm, Pj).
 
 jugar(Acc, Pm, Pj):- write('tu personaje es: '), writeln(Pj), leer_entrada(X), do_accion(X),
-    write('la maquina ha escogido: '), jugar_maquina(Acc,NAcc), jugar(NAcc).
+    write('la maquina ha escogido: '), jugar_maquina(Acc,NAcc), jugar(NAcc, Pm, Pj).
