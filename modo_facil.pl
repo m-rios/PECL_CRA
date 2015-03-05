@@ -13,7 +13,9 @@ test([derek]).
 personaje_maquina([]).
 personaje_jugador([]).
 
-do_accion(A):- A = 'chico', writeln('personaje chico').
+%do_accion(A, Personaje, Lista_personajes):- A = 'chico', es_chico(Chicos), member(P,Chicos),descartarchicas.
+%do_accion(A, P, L):- A = 'chico', .
+do_accion(A):-A = 'chico', writeln('personaje chico').
 do_accion(A):-A = 'chica', writeln('personaje chica').
 do_accion(A):-A = 'gafas', writeln('personaje gafas').
 do_accion(A):-A = 'pelo_rubio', writeln('personaje pelo_rubio').
@@ -30,15 +32,22 @@ leer_entrada(X):- write('escoge cualidades: '), read(X).
 
 jugar_maquina(Acc,NAcc):- random_select(X,Acc,NAcc), do_accion(X).
 
-facil:- 
+facil:-     
     %recuperar lista de acciones disponibles para la maquina.
-    acciones_maquina(L),
+    acciones_maquina(Acciones),
     %Pm -> personaje maquina, Lb-> lista inicial, La-> Lb-Pm
-    personas(Lbm),
-    random_select(Pm,Lbm,Lam),
-    random_select(Pj, Lam, Laj),
+    personas(Personas),
+    random_select(Personaje_maquina,Personas,Personas2),
+    random_select(Personaje_jugador, Personas2, _),
+    select(Personaje_maquina, Personas, Candidatos_maquina),
+    select(Personaje_jugador, Personas, Candidatos_jugador),
+    write('tu personaje es: '), writeln(Personaje_jugador),
     %ejecutar consola de juego
-    jugar(L, Pm, Pj).
+    jugar(Acciones, Candidatos_jugador, Candidatos_maquina, Personaje_jugador, Personaje_maquina).
 
-jugar(Acc, Pm, Pj):- write('tu personaje es: '), writeln(Pj), leer_entrada(X), do_accion(X),
-    write('la maquina ha escogido: '), jugar_maquina(Acc,NAcc), jugar(NAcc, Pm, Pj).
+jugar(Acciones, Candidatos_jugador, Candidatos_maquina, Personaje_jugador, Personaje_maquina):-      
+    leer_entrada(X), do_accion(X),
+    write('la maquina ha escogido: '), jugar_maquina(Acciones,NAcc), jugar(NAcc, Candidatos_jugador, Candidatos_maquina, Personaje_jugador, Personaje_maquina).
+
+
+
