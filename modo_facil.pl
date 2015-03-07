@@ -12,11 +12,19 @@ personas([albert, paul, tom, derek, richard, louis, michael, charles, sam, steve
 %hacer_pregunta(A, Personaje, Lista_personajes):- A = 'chico', es_chico(Chicos), member(P,Chicos),descartarchicas.
 %hacer_pregunta(A, P, L):- A = 'chico', .
 hacer_pregunta(P,Candidatos,Sol,N_candidatos):-P=Sol, write('Has acertado, mi personaje era '), writeln(Sol).
+
 hacer_pregunta(P,Candidatos,Sol,N_candidatos):-P = 'chico',es_chico(Chicos), member(Sol,Chicos), intersection(Candidatos,Chicos,N_candidatos);P='chico',resta(Candidatos,Chicos,N_candidatos).
 hacer_pregunta(P,Candidatos,Sol,N_candidatos):-P = 'chica',es_chico(Chicos), not(member(Sol,Chicos)),resta(Candidatos,Chicos,N_candidatos) ;P='chica',intersection(Candidatos,Chicos,N_candidatos).
-hacer_pregunta(P,Candidatos,Sol,N_candidatos):-P = 'gafas', gafas(Gafotas), member(Sol,Gafotas),intersection(Candidatos,Gafotas,N_candidatos);resta(Candidatos,Gafotas,N_candidatos).
-hacer_pregunta(P,Candidatos,Sol,N_candidatos):-P = 'pelo_rubio', pelo_rubio(Rubios), member(Sol,Rubios),intersection(Candidatos,Rubios,N_candidatos);resta(Candidatos,Rubios,N_candidatos).
-hacer_pregunta(P,Candidatos,Sol,N_candidatos):-P = 'feliz', esta_triste(Tristes), member(Sol,Tristes), intersection(Candidatos,Tristes,N_candidatos);resta(Candidatos,Tristes,N_candidatos).
+
+hacer_pregunta(P,Candidatos,Sol,N_candidatos):-P = 'gafas', gafas(Gafotas), member(Sol,Gafotas),intersection(Candidatos,Gafotas,N_candidatos);P='gafas'resta(Candidatos,Gafotas,N_candidatos).
+
+hacer_pregunta(P,Candidatos,Sol,N_candidatos):-P = 'pelo_rubio', pelo_rubio(Rubios), member(Sol,Rubios),intersection(Candidatos,Rubios,N_candidatos); P='pelo_rubio'resta(Candidatos,Rubios,N_candidatos).
+hacer_pregunta(P,Candidatos,Sol,N_candidatos):-P = 'pelo_negro', pelo_rubio(Rubios), not(member(Sol,Rubios)),resta(Candidatos,Rubios,N_candidatos);P='pelo_negro',intersection(Candidatos,Rubios,N_candidatos).
+
+hacer_pregunta(P,Candidatos,Sol,N_candidatos):-P = 'feliz', esta_triste(Tristes), member(Sol,Tristes), intersection(Candidatos,Tristes,N_candidatos);P='feliz',resta(Candidatos,Tristes,N_candidatos).
+hacer_pregunta(P,Candidatos,Sol,N_candidatos):-P = 'triste', esta_triste(Tristes), not(member(Sol,Tristes)),resta(Candidatos,Tristes,N_candidatos); P='triste',intersection(Candidatos,Tristes,N_candidatos).
+
+
 hacer_pregunta(P,Candidatos,Sol,N_candidatos):-P = 'ropa_roja', ropa_roja(RopaRoja), member(Sol,RopaRoja), intersection(Candidatos,RopaRoja,N_candidatos);resta(Candidatos,RopaRoja,N_candidatos).
 hacer_pregunta(P,Candidatos,Sol,N_candidatos):-P = 'ojos_azules', ojos_azules(OjosAzules),member(Sol,OjosAzules),intersection(Candidatos,OjosAzules,N_candidatos);resta(Candidatos,OjosAzules,N_candidatos).
 hacer_pregunta(P,Candidatos,Sol,N_candidatos):- writeln('cualidad no reconocida :3').
