@@ -64,6 +64,9 @@ facil:-
     jugar(Preguntas, Candidatos_jugador, Candidatos_maquina, Personaje_jugador, Personaje_maquina).
 
 jugar(Preguntas, Candidatos_jugador, Candidatos_maquina, Personaje_jugador, Personaje_maquina):-      
+length(Candidatos_jugador, L),L=1,write('Tu ganas, mi personaje es '),writeln(Personaje_maquina);
+length(Candidatos_maquina,L),L=1, write('Yo gano, tu personaje es '), writeln(Personaje_jugador).
+jugar(Preguntas, Candidatos_jugador, Candidatos_maquina, Personaje_jugador, Personaje_maquina):-      
     writeln('-------------------------------------------------------------------'),
     writeln('Tus candidatos a elegir son:'),
     imprimir_candidatos(Candidatos_jugador),
@@ -74,7 +77,7 @@ jugar(Preguntas, Candidatos_jugador, Candidatos_maquina, Personaje_jugador, Pers
     leer_pregunta(X), hacer_pregunta(X,Personaje_maquina),
     %ejecutar accion maquina
     write('la maquina ha escogido: '), jugar_maquina(Preguntas,NPreg,Personaje_jugador), 
-    jugar(NPreg, Candidatos_jugador, Candidatos_maquina, Personaje_jugador, Personaje_maquina).
+    jugar(NPreg, [Personaje_maquina], Candidatos_maquina, Personaje_jugador, Personaje_maquina).
 
 
 
