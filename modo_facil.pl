@@ -12,7 +12,8 @@ personas([albert, paul, tom, derek, richard, louis, michael, charles, sam, steve
 %hacer_pregunta(A, Personaje, Lista_personajes):- A = 'chico', es_chico(Chicos), member(P,Chicos),descartarchicas.
 %hacer_pregunta(A, P, L):- A = 'chico', .
 hacer_pregunta(P,Candidatos,Sol,N_candidatos):-P=Sol, write('Has acertado, mi personaje era '), writeln(Sol).
-hacer_pregunta(P,Candidatos,Sol,N_candidatos):-P = 'chico',es_chico(Chicos), member(Sol,Chicos), intersection(Candidatos,Chicos,N_candidatos);resta(Candidatos,Chicos,N_candidatos).
+hacer_pregunta(P,Candidatos,Sol,N_candidatos):-P = 'chico',es_chico(Chicos), member(Sol,Chicos), intersection(Candidatos,Chicos,N_candidatos);P='chico',resta(Candidatos,Chicos,N_candidatos).
+hacer_pregunta(P,Candidatos,Sol,N_candidatos):-P = 'chica',es_chico(Chicos), not(member(Sol,Chicos)),resta(Candidatos,Chicos,N_candidatos) ;P='chica',intersection(Candidatos,Chicos,N_candidatos).
 hacer_pregunta(P,Candidatos,Sol,N_candidatos):-P = 'gafas', gafas(Gafotas), member(Sol,Gafotas),intersection(Candidatos,Gafotas,N_candidatos);resta(Candidatos,Gafotas,N_candidatos).
 hacer_pregunta(P,Candidatos,Sol,N_candidatos):-P = 'pelo_rubio', pelo_rubio(Rubios), member(Sol,Rubios),intersection(Candidatos,Rubios,N_candidatos);resta(Candidatos,Rubios,N_candidatos).
 hacer_pregunta(P,Candidatos,Sol,N_candidatos):-P = 'feliz', esta_triste(Tristes), member(Sol,Tristes), intersection(Candidatos,Tristes,N_candidatos);resta(Candidatos,Tristes,N_candidatos).
@@ -74,10 +75,12 @@ jugar(Preguntas, Candidatos_jugador, Candidatos_maquina, Personaje_jugador, Pers
     write('Las preguntas que puedes hacer son: '),
     preguntas(L),
     writeln(L),
-    leer_pregunta(X), hacer_pregunta(X,Personaje_maquina),
+    leer_pregunta(X), hacer_pregunta(X,Candidatos_jugador,Personaje_maquina,N_candidatos_jugador),
     %ejecutar accion maquina
-    write('la maquina ha escogido: '), jugar_maquina(Preguntas,NPreg,Personaje_jugador), 
-    jugar(NPreg, [Personaje_maquina], Candidatos_maquina, Personaje_jugador, Personaje_maquina).
+    %write('la maquina ha escogido: '), 
+    %random_select(X,Preguntas,NPreg),
+    %hacer_pregunta(X,Candidatos_maquina,Personaje_jugador,N_candidatos_maquina),
+    jugar(NPreg, N_candidatos_jugador, Candidatos_maquina, Personaje_jugador, Personaje_maquina).
 
 
 
