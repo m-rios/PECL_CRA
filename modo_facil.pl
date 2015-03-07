@@ -8,23 +8,26 @@ ojos_azules([albert,richard,louis,sam,will,billy,natalie,roxanne,sabrina]).
 preguntas(['chico','chica','gafas','pelo_rubio','pelo_negro','feliz','triste','ropa_roja','ropa_verde','ojos_azules','ojos_marrones']).
 
 personas([albert, paul, tom, derek, richard, louis, michael, charles, sam, steve, will, anthony, billy, henry, tiffany, natalie, roxanne, sarah, sabrina, cindy, emma]).
-test([derek]).
 
 %hacer_pregunta(A, Personaje, Lista_personajes):- A = 'chico', es_chico(Chicos), member(P,Chicos),descartarchicas.
 %hacer_pregunta(A, P, L):- A = 'chico', .
-hacer_pregunta(P, Sol):-P=Sol, write('Has acertado, mi personaje era '), writeln(Sol).
-hacer_pregunta(P, Sol):-P = 'chico', writeln('personaje chico').
-hacer_pregunta(P, Sol):-P = 'chica', writeln('personaje chica').
-hacer_pregunta(P, Sol):-P = 'gafas', writeln('personaje gafas').
-hacer_pregunta(P, Sol):-P = 'pelo_rubio', writeln('personaje pelo_rubio').
-hacer_pregunta(P, Sol):-P = 'pelo_negro', writeln('personaje pelo_negro').
-hacer_pregunta(P, Sol):-P = 'feliz', writeln('personaje feliz').
-hacer_pregunta(P, Sol):-P = 'triste', writeln('personaje triste').
-hacer_pregunta(P, Sol):-P = 'ropa_roja', writeln('personaje ropa_roja').
-hacer_pregunta(P, Sol):-P = 'ropa_verde', writeln('personaje ropa_verde').
-hacer_pregunta(P, Sol):-P = 'ojos_azules', writeln('personaje ojos_azules').
-hacer_pregunta(P, Sol):-P = 'ojos_marrones', writeln('personaje ojos_marrones').
-hacer_pregunta(P, Sol):- writeln('cualidad no reconocida :3').
+hacer_pregunta(P,Candidatos,Sol,N_candidatos):-P=Sol, write('Has acertado, mi personaje era '), writeln(Sol).
+hacer_pregunta(P,Candidatos,Sol,N_candidatos):-P = 'chico',es_chico(Chicos), member(Sol,Chicos), intersection(Candidatos,Chicos,N_candidatos);resta(Candidatos,Chicos,N_candidatos).
+hacer_pregunta(P,Candidatos,Sol,N_candidatos):-P = 'gafas', gafas(Gafotas), member(Sol,Gafotas),intersection(Candidatos,Gafotas,N_candidatos);resta(Candidatos,Gafotas,N_candidatos).
+hacer_pregunta(P,Candidatos,Sol,N_candidatos):-P = 'pelo_rubio', pelo_rubio(Rubios), member(Sol,Rubios),intersection(Candidatos,Rubios,N_candidatos);resta(Candidatos,Rubios,N_candidatos).
+hacer_pregunta(P,Candidatos,Sol,N_candidatos):-P = 'feliz', esta_triste(Tristes), member(Sol,Tristes), intersection(Candidatos,Tristes,N_candidatos);resta(Candidatos,Tristes,N_candidatos).
+hacer_pregunta(P,Candidatos,Sol,N_candidatos):-P = 'ropa_roja', ropa_roja(RopaRoja), member(Sol,RopaRoja), intersection(Candidatos,RopaRoja,N_candidatos);resta(Candidatos,RopaRoja,N_candidatos).
+hacer_pregunta(P,Candidatos,Sol,N_candidatos):-P = 'ojos_azules', ojos_azules(OjosAzules),member(Sol,OjosAzules),intersection(Candidatos,OjosAzules,N_candidatos);resta(Candidatos,OjosAzules,N_candidatos).
+hacer_pregunta(P,Candidatos,Sol,N_candidatos):- writeln('cualidad no reconocida :3').
+
+resta(L,[],Resultado):-append(L,[],Resultado).	
+resta(Candidatos,[X|Aeliminar],Resultado):-
+	elimina(X,Candidatos,Resto_aux),
+	resta(Resto_aux,Aeliminar,Resultado).
+
+elimina(X,[X|T],T).
+elimina(X,[],[]).
+elimina(X,[H|T],[H|T1]):- elimina(X,T,T1).
 
 leer_pregunta(X):- write('haz tu pregunta: '), read(X).
 %pregunta optima: si tengo igual de una caracteristica q de la contraria, elijo esa, porque me divide en 2 el problema
@@ -41,6 +44,9 @@ print_ropa(Candidato):- ropa_roja(Rojos), member(Candidato, Rojos), write('Ropa 
 print_estado(Candidato):-esta_triste(Tristes), member(Candidato, Tristes), write('triste');write('feliz').
 print_gafas(Candidato):-gafas(Gafotas), member(Candidato, Gafotas), write('lleva gafas');write('sin gafas').
 print_ojos(Candidato):-ojos_azules(OjosAzules), member(Candidato, OjosAzules), write('Ojos azules');write('Ojos marrones').
+
+%descartar(Candidatos, Descartados):-.fa
+
 
 
 facil:-     
