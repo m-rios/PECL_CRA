@@ -25,8 +25,10 @@ hacer_pregunta(P,Candidatos,Sol,N_candidatos):-P = 'feliz', esta_triste(Tristes)
 hacer_pregunta(P,Candidatos,Sol,N_candidatos):-P = 'triste', esta_triste(Tristes), not(member(Sol,Tristes)),resta(Candidatos,Tristes,N_candidatos); P='triste',intersection(Candidatos,Tristes,N_candidatos).
 
 
-hacer_pregunta(P,Candidatos,Sol,N_candidatos):-P = 'ropa_roja', ropa_roja(RopaRoja), member(Sol,RopaRoja), intersection(Candidatos,RopaRoja,N_candidatos);resta(Candidatos,RopaRoja,N_candidatos).
-hacer_pregunta(P,Candidatos,Sol,N_candidatos):-P = 'ojos_azules', ojos_azules(OjosAzules),member(Sol,OjosAzules),intersection(Candidatos,OjosAzules,N_candidatos);resta(Candidatos,OjosAzules,N_candidatos).
+hacer_pregunta(P,Candidatos,Sol,N_candidatos):-P = 'ropa_roja', ropa_roja(RopaRoja), member(Sol,RopaRoja), intersection(Candidatos,RopaRoja,N_candidatos);P = 'ropa_roja',resta(Candidatos,RopaRoja,N_candidatos).
+hacer_pregunta(P,Candidatos,Sol,N_candidatos):-P = 'ropa_verde', ropa_roja(RopaRoja), member(Sol,RopaRoja), resta(Candidatos,RopaRoja,N_candidatos);P='ropa_verde',intersection(Candidatos,RopaRoja,N_candidatos).
+hacer_pregunta(P,Candidatos,Sol,N_candidatos):-P = 'ojos_azules', ojos_azules(OjosAzules),member(Sol,OjosAzules),intersection(Candidatos,OjosAzules,N_candidatos);P='ojos_azules',resta(Candidatos,OjosAzules,N_candidatos).
+hacer_pregunta(P,Candidatos,Sol,N_candidatos):-P = 'ojos_verdes', ojos_azules(OjosAzules),member(Sol,OjosAzules),resta(Candidatos,OjosAzules,N_candidatos);P='ojos_verdes'intersection(Candidatos,OjosAzules,N_candidatos).
 hacer_pregunta(P,Candidatos,Sol,N_candidatos):- writeln('cualidad no reconocida :3').
 
 resta(L,[],Resultado):-append(L,[],Resultado).	
