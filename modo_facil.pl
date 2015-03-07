@@ -14,11 +14,17 @@ personas([albert, paul, tom, derek, richard, louis, michael, charles, sam, steve
 hacer_pregunta(P,Candidatos,Sol,N_candidatos):-P=Sol, write('Has acertado, mi personaje era '), writeln(Sol).
 
 hacer_pregunta(P,Candidatos,Sol,N_candidatos):-P = 'chico',es_chico(Chicos), member(Sol,Chicos), intersection(Candidatos,Chicos,N_candidatos);P='chico',resta(Candidatos,Chicos,N_candidatos).
-hacer_pregunta(P,Candidatos,Sol,N_candidatos):-P = 'chica',es_chico(Chicos), not(member(Sol,Chicos)),resta(Candidatos,Chicos,N_candidatos) ;P='chica',intersection(Candidatos,Chicos,N_candidatos).
+hacer_pregunta(P,Candidatos,Sol,N_candidatos):-
+    %si la pregunta es chica? y la solución es un chica, nos quedamos con los candidatos que no sean chicos
+    P = 'chica',es_chico(Chicos), not(member(Sol,Chicos)),personas(Personas),resta(Personas,Chicos,Chicas),resta(Candidatos,Chicas,N_candidatos)
+    %si la pregunta es 'chica?' y la solución es chico, nos quedamos con los candidatos que sean chicos
+    ;P='chica',es_chico(Chicos), intersection(Candidatos,Chicos,N_candidatos).
 
-hacer_pregunta(P,Candidatos,Sol,N_candidatos):-P = 'gafas', gafas(Gafotas), member(Sol,Gafotas),intersection(Candidatos,Gafotas,N_candidatos);P='gafas'resta(Candidatos,Gafotas,N_candidatos).
+hacer_pregunta(P,Candidatos,Sol,N_candidatos):-
+    P = 'gafas', gafas(Gafotas), member(Sol,Gafotas),intersection(Candidatos,Gafotas,N_candidatos);
+    P='gafas',resta(Candidatos,Gafotas,N_candidatos).
 
-hacer_pregunta(P,Candidatos,Sol,N_candidatos):-P = 'pelo_rubio', pelo_rubio(Rubios), member(Sol,Rubios),intersection(Candidatos,Rubios,N_candidatos); P='pelo_rubio'resta(Candidatos,Rubios,N_candidatos).
+hacer_pregunta(P,Candidatos,Sol,N_candidatos):-P = 'pelo_rubio', pelo_rubio(Rubios), member(Sol,Rubios),intersection(Candidatos,Rubios,N_candidatos); P='pelo_rubio',resta(Candidatos,Rubios,N_candidatos).
 hacer_pregunta(P,Candidatos,Sol,N_candidatos):-P = 'pelo_negro', pelo_rubio(Rubios), not(member(Sol,Rubios)),resta(Candidatos,Rubios,N_candidatos);P='pelo_negro',intersection(Candidatos,Rubios,N_candidatos).
 
 hacer_pregunta(P,Candidatos,Sol,N_candidatos):-P = 'feliz', esta_triste(Tristes), member(Sol,Tristes), intersection(Candidatos,Tristes,N_candidatos);P='feliz',resta(Candidatos,Tristes,N_candidatos).
@@ -28,7 +34,7 @@ hacer_pregunta(P,Candidatos,Sol,N_candidatos):-P = 'triste', esta_triste(Tristes
 hacer_pregunta(P,Candidatos,Sol,N_candidatos):-P = 'ropa_roja', ropa_roja(RopaRoja), member(Sol,RopaRoja), intersection(Candidatos,RopaRoja,N_candidatos);P = 'ropa_roja',resta(Candidatos,RopaRoja,N_candidatos).
 hacer_pregunta(P,Candidatos,Sol,N_candidatos):-P = 'ropa_verde', ropa_roja(RopaRoja), member(Sol,RopaRoja), resta(Candidatos,RopaRoja,N_candidatos);P='ropa_verde',intersection(Candidatos,RopaRoja,N_candidatos).
 hacer_pregunta(P,Candidatos,Sol,N_candidatos):-P = 'ojos_azules', ojos_azules(OjosAzules),member(Sol,OjosAzules),intersection(Candidatos,OjosAzules,N_candidatos);P='ojos_azules',resta(Candidatos,OjosAzules,N_candidatos).
-hacer_pregunta(P,Candidatos,Sol,N_candidatos):-P = 'ojos_verdes', ojos_azules(OjosAzules),member(Sol,OjosAzules),resta(Candidatos,OjosAzules,N_candidatos);P='ojos_verdes'intersection(Candidatos,OjosAzules,N_candidatos).
+hacer_pregunta(P,Candidatos,Sol,N_candidatos):-P = 'ojos_verdes', ojos_azules(OjosAzules),member(Sol,OjosAzules),resta(Candidatos,OjosAzules,N_candidatos);P='ojos_verdes',intersection(Candidatos,OjosAzules,N_candidatos).
 hacer_pregunta(P,Candidatos,Sol,N_candidatos):- writeln('cualidad no reconocida :3').
 
 resta(L,[],Resultado):-append(L,[],Resultado).	
@@ -72,7 +78,7 @@ facil:-
     write('tu personaje es: '), writeln(Personaje_jugador),
     write('DEBUG!! El personaje de la maquina es: '), writeln(Personaje_maquina),
     %ejecutar consola de juego
-    jugar(Preguntas, Candidatos_jugador, Candidatos_maquina, Personaje_jugador, Personaje_maquina).
+    jugar(Preguntas, Candidatos_jugador, Candidatos_maquina, Personaje_jugador, emma).
 
 jugar(Preguntas, Candidatos_jugador, Candidatos_maquina, Personaje_jugador, Personaje_maquina):-      
 length(Candidatos_jugador, L),L=1,write('Tu ganas, mi personaje es '),writeln(Personaje_maquina);
