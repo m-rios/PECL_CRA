@@ -12,59 +12,60 @@ personas([albert, paul, tom, derek, richard, louis, michael, charles, sam, steve
 hacer_pregunta(P,Candidatos,Sol,N_candidatos):-P=Sol, write('Has acertado, mi personaje era '), writeln(Sol).
 
 hacer_pregunta(P,Candidatos,Sol,N_candidatos):-
-    P = 'chico',es_chico(Chicos), member(Sol,Chicos), intersection(Candidatos,Chicos,N_candidatos);
-    P='chico',es_chico(Chicos),resta(Candidatos,Chicos,N_candidatos).
+    P = 'chico',es_chico(Chicos), member(Sol,Chicos), intersection(Candidatos,Chicos,N_candidatos),writeln('Si, es un chico!');
+    P='chico',es_chico(Chicos),resta(Candidatos,Chicos,N_candidatos),writeln('No, no es un chico').
 
 hacer_pregunta(P,Candidatos,Sol,N_candidatos):-
     %si la pregunta es chica? y la solución es un chica, nos quedamos con los candidatos que no sean chicos
-    P = 'chica',es_chico(Chicos), not(member(Sol,Chicos)),resta(Candidatos,Chicos,N_candidatos)
+    P = 'chica',es_chico(Chicos), not(member(Sol,Chicos)),resta(Candidatos,Chicos,N_candidatos),writeln('Si, es una chica!')
     %si la pregunta es 'chica?' y la solución es chico, nos quedamos con los candidatos que sean chicos
-    ;P='chica',es_chico(Chicos), intersection(Candidatos,Chicos,N_candidatos).
+    ;P='chica',es_chico(Chicos),intersection(Candidatos,Chicos,N_candidatos), writeln('No es una chica').
 
 hacer_pregunta(P,Candidatos,Sol,N_candidatos):-
     %si la pregunta es gafas y la solución tiene gafas, quedarse con los candidatos que tengan gafas
-    P = 'gafas', gafas(Gafotas), member(Sol,Gafotas),intersection(Candidatos,Gafotas,N_candidatos);
+    P = 'gafas', gafas(Gafotas), member(Sol,Gafotas),intersection(Candidatos,Gafotas,N_candidatos),writeln('Si, lleva gafas');
     %si la solución no tiene gafas, quedarse con los que no llevan gafas.
-    P='gafas',gafas(Gafotas),resta(Candidatos,Gafotas,N_candidatos).
+    P='gafas',gafas(Gafotas),resta(Candidatos,Gafotas,N_candidatos),writeln('No lleva gafas').
 
 hacer_pregunta(P,Candidatos,Sol,N_candidatos):-
     %si la pregunta es pelo rubio, y el personaje es rubio
-    P = 'pelo_rubio', pelo_rubio(Rubios), member(Sol,Rubios),intersection(Candidatos,Rubios,N_candidatos); 
+    P = 'pelo_rubio', pelo_rubio(Rubios), member(Sol,Rubios),intersection(Candidatos,Rubios,N_candidatos),writeln('si, es rubio'); 
     %si el personaje no es rubio
-    P='pelo_rubio',pelo_rubio(Rubios),resta(Candidatos,Rubios,N_candidatos).
+    P='pelo_rubio',pelo_rubio(Rubios),resta(Candidatos,Rubios,N_candidatos),writeln('no es rubio').
 
 hacer_pregunta(P,Candidatos,Sol,N_candidatos):-
     %si la pregunta es pelo negro y el candidato es moreno, nos quedamos con los no rubios
-    P = 'pelo_negro', pelo_rubio(Rubios), not(member(Sol,Rubios)),resta(Candidatos,Rubios,N_candidatos);
-    P='pelo_negro',pelo_rubio(Rubios), intersection(Candidatos,Rubios,N_candidatos).
+    P = 'pelo_negro', pelo_rubio(Rubios), not(member(Sol,Rubios)),
+    resta(Candidatos,Rubios,N_candidatos),writeln('si, es moreno');
+    P='pelo_negro',pelo_rubio(Rubios),intersection(Candidatos,Rubios,N_candidatos),writeln('no es moreno').
 
 hacer_pregunta(P,Candidatos,Sol,N_candidatos):-
     %si la pregunta es feliz y la solución esta triste, nos quedamos con los que estan tristes
-    P = 'feliz', esta_triste(Tristes), member(Sol,Tristes), intersection(Candidatos,Tristes,N_candidatos);
+    P = 'feliz', esta_triste(Tristes), member(Sol,Tristes),intersection(Candidatos,Tristes,N_candidatos),writeln('Esta feliz!!');
     %si esta feliz, nos quedamos con los que no estan tristes.
-    P='feliz',esta_triste(Tristes),resta(Candidatos,Tristes,N_candidatos).
+    P='feliz',esta_triste(Tristes),resta(Candidatos,Tristes,N_candidatos),writeln('No esta feliz D:').
 hacer_pregunta(P,Candidatos,Sol,N_candidatos):-
     %si la pregunta es triste y la solución no está triste, nos quedamos con los que no estan tristes
-    P = 'triste', esta_triste(Tristes), not(member(Sol,Tristes)),resta(Candidatos,Tristes,N_candidatos);
+    P = 'triste', esta_triste(Tristes), not(member(Sol,Tristes)),resta(Candidatos,Tristes,N_candidatos),writeln('esta feliz :D');
     %si la solución esta triste, nos quedamos con los tristes.
-    P='triste',esta_triste(Tristes),intersection(Candidatos,Tristes,N_candidatos).
+    P='triste',esta_triste(Tristes),intersection(Candidatos,Tristes,N_candidatos),writeln('esta triste D:').
 
 
 hacer_pregunta(P,Candidatos,Sol,N_candidatos):-    
-    P = 'ropa_roja', ropa_roja(RopaRoja), member(Sol,RopaRoja), intersection(Candidatos,RopaRoja,N_candidatos);
-    P = 'ropa_roja',ropa_roja(RopaRoja),resta(Candidatos,RopaRoja,N_candidatos).
+    P = 'ropa_roja', ropa_roja(RopaRoja), member(Sol,RopaRoja),intersection(Candidatos,RopaRoja,N_candidatos), writeln('Si, lleva la ropa roja');
+    P = 'ropa_roja',ropa_roja(RopaRoja),resta(Candidatos,RopaRoja,N_candidatos),writeln('no, la ropa no es roja').
 
 hacer_pregunta(P,Candidatos,Sol,N_candidatos):-
-    P = 'ropa_verde', ropa_roja(RopaRoja), not(member(Sol,RopaRoja)), resta(Candidatos,RopaRoja,N_candidatos);
-    P='ropa_verde',ropa_roja(RopaRoja),intersection(Candidatos,RopaRoja,N_candidatos).
+    P = 'ropa_verde', ropa_roja(RopaRoja), not(member(Sol,RopaRoja)),resta(Candidatos,RopaRoja,N_candidatos), writeln('si, la ropa es verde');
+    P='ropa_verde',ropa_roja(RopaRoja),intersection(Candidatos,RopaRoja,N_candidatos),writeln('no, no es verde!').
 
 hacer_pregunta(P,Candidatos,Sol,N_candidatos):-
-    P ='ojos_azules', ojos_azules(OjosAzules),member(Sol,OjosAzules),intersection(Candidatos,OjosAzules,N_candidatos);
-    P='ojos_azules',ojos_azules(OjosAzules),resta(Candidatos,OjosAzules,N_candidatos).
+    P ='ojos_azules', ojos_azules(OjosAzules),member(Sol,OjosAzules),intersection(Candidatos,OjosAzules,N_candidatos),writeln('si, sus ojos son azules');
+    P='ojos_azules',ojos_azules(OjosAzules),resta(Candidatos,OjosAzules,N_candidatos),writeln('no, no son azules').
 
 hacer_pregunta(P,Candidatos,Sol,N_candidatos):-
-    P ='ojos_marrones', ojos_azules(OjosAzules),not(member(Sol,OjosAzules)),resta(Candidatos,OjosAzules,N_candidatos);
-    P='ojos_marrones',ojos_azules(OjosAzules),intersection(Candidatos,OjosAzules,N_candidatos).
+    P ='ojos_marrones', ojos_azules(OjosAzules),not(member(Sol,OjosAzules)),resta(Candidatos,OjosAzules,N_candidatos),writeln('Si, son marrones');
+    P='ojos_marrones',ojos_azules(OjosAzules),intersection(Candidatos,OjosAzules,N_candidatos),writeln('No, no son marrones').
 
 hacer_pregunta(P,Candidatos,Sol,N_candidatos):- writeln('pregunta no reconocida :3'), append(Candidatos,[],N_candidatos).
 
@@ -95,6 +96,11 @@ print_estado(Candidato):-esta_triste(Tristes), member(Candidato, Tristes), write
 print_gafas(Candidato):-gafas(Gafotas), member(Candidato, Gafotas), write('lleva gafas');write('sin gafas').
 print_ojos(Candidato):-ojos_azules(OjosAzules), member(Candidato, OjosAzules), write('Ojos azules');write('Ojos marrones').
 
+calcular_posibilidades(N_Candidatos_maquina):-
+    length(N_Candidatos_maquina,N), N = 1, writeln('Ya se quien eres!');
+    length(N_Candidatos_maquina,N), 
+    write('mmm, dudo entre '),write(N),writeln(' posibilidades').
+
 facil:-     
     %recuperar todas las acciones disponibles
     preguntas(Preguntas),
@@ -124,5 +130,5 @@ jugar(Preguntas, Candidatos_jugador, Candidatos_maquina, Personaje_jugador, Pers
     %jugar_maquina(Preguntas,NPreg,Candidatos_maquina,Personaje_jugador,N_candidatos_maquina),
     write('Ahora me toca a mi, '),random_select(Preg,Preguntas,NPreg), write(Preg), writeln(' ?'),
     hacer_pregunta(Preg,Candidatos_maquina,Personaje_jugador,N_Candidatos_maquina),
-    write('mmm, dudo entre '),length(Candidatos_maquina,N),write(N),writeln(' posibilidades'),
+    calcular_posibilidades(N_Candidatos_maquina),
     jugar(NPreg, N_candidatos_jugador, N_Candidatos_maquina, Personaje_jugador, Personaje_maquina).
