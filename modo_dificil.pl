@@ -167,14 +167,12 @@ elegir(Candidatos,Preguntas, Siguiente, RelacionSiguiente, Optima, RelacionOptim
     RelacionSiguiente =< RelacionOptima, get(Preguntas,Primera,Resto),relacion(Primera,Candidatos,RelacionPrimera) ,elegir(Candidatos,Resto,Primera,RelacionPrimera, Siguiente,RelacionSiguiente,Solucion).
 elegir(Candidatos,Preguntas, Siguiente, RelacionSiguiente, Optima, RelacionOptima,Solucion):-
     RelacionSiguiente > RelacionOptima,  get(Preguntas,Primera,Resto),relacion(Primera,Candidatos,RelacionPrimera) ,elegir(Candidatos,Resto,Primera,RelacionPrimera, Optima,RelacionOptima,Solucion).
-count(_,[],N):- N = 0.
-count(A,[A|L],N):- count(A,L,N1),N is N1+1.
-count(A,[_|L],N):- count(A,L,N). 
+
 longitud([X|Y],N):- 
     longitud(Y,N1),
     N is N1 + 1.
 longitud([],N):- N is 0.
-swap(X,L,L,X).
+
 get([X|L],X,L).
 
 dificil:-     
