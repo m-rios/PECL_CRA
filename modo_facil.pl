@@ -10,7 +10,6 @@ facil:-
     select(Personaje_maquina, Personas, Candidatos_maquina),
     select(Personaje_jugador, Personas, Candidatos_jugador),
     write('tu personaje es: '), writeln(Personaje_jugador),
-    write('DEBUG!! El personaje de la maquina es: '), writeln(Personaje_maquina),
     %ejecutar consola de juego
     turno_facil(Preguntas, Candidatos_jugador, Candidatos_maquina, Personaje_jugador, Personaje_maquina).
 
