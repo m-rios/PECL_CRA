@@ -8,9 +8,6 @@ ojos_azules([albert,richard,louis,sam,will,billy,natalie,roxanne,sabrina]).
 preguntas(['chico','chica','gafas','pelo_rubio','pelo_negro','feliz','triste','ropa_roja','ropa_verde','ojos_azules','ojos_marrones']).
 personas([albert, paul, tom, derek, richard, louis, michael, charles, sam, steve, will, anthony, billy, henry, tiffany, natalie, roxanne, sarah, sabrina, cindy, emma]).
 
-
-hacer_pregunta(P,_,Sol,_):-P=Sol, write('Has acertado, mi personaje era '), writeln(Sol).
-
 hacer_pregunta(P,Candidatos,Sol,N_candidatos):-
     P = 'chico',es_chico(Chicos), member(Sol,Chicos), intersection(Candidatos,Chicos,N_candidatos),writeln('Si, es un chico!');
     P='chico',es_chico(Chicos),resta(Candidatos,Chicos,N_candidatos),writeln('No, no es un chico').
@@ -192,13 +189,11 @@ elegir(Candidatos,Preguntas, Siguiente, RelacionSiguiente, _, RelacionOptima,Sol
 elegir(Candidatos,Preguntas, _, RelacionSiguiente, Optima, RelacionOptima,Solucion):-
     RelacionSiguiente > RelacionOptima,  get(Preguntas,Primera,Resto),relacion(Primera,Candidatos,RelacionPrimera) ,elegir(Candidatos,Resto,Primera,RelacionPrimera, Optima,RelacionOptima,Solucion).
 
-
 %longitud de una lista
 longitud([_|Y],N):- 
     longitud(Y,N1),
     N is N1 + 1.
 longitud([],N):- N is 0.
-
 
 %El proposito de este método es de devolver el primer elementos de una lista
 %   y el resto
@@ -220,8 +215,6 @@ dificil:-
     %ejecutar consola de juego
 
     jugar(Preguntas, Candidatos_jugador, Candidatos_maquina, Personaje_jugador, Personaje_maquina).
-
-
 
 jugar(_, [C1],_,_,_):- write('Tu ganas, mi personaje es '),writeln(C1).
 jugar(_, _, [C2],_,_):- write('Yu gano, tu personaje es '),writeln(C2).

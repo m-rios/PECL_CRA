@@ -1,3 +1,4 @@
+%en la kb solo se codifica media población. [Las chicas son (todas las personas) - (los chicos)] etc.
 es_chico([albert,paul,tom,derek,richard,louis,michael,charles,sam,steve,will,anthony,billy,henry]).
 pelo_rubio([paul,michael,sam,will,anthony,billy,natalie,roxanne,emma]).
 ropa_roja([albert,paul,richard,louis,sam,steve,anthony,henry,natalie,sarah,cindy]).
@@ -8,8 +9,6 @@ ojos_azules([albert,richard,louis,sam,will,billy,natalie,roxanne,sabrina]).
 preguntas(['chico','chica','gafas','pelo_rubio','pelo_negro','feliz','triste','ropa_roja','ropa_verde','ojos_azules','ojos_marrones']).
 
 personas([albert, paul, tom, derek, richard, louis, michael, charles, sam, steve, will, anthony, billy, henry, tiffany, natalie, roxanne, sarah, sabrina, cindy, emma]).
-
-hacer_pregunta(P,Candidatos,Sol,N_candidatos):-P=Sol, write('Has acertado, mi personaje era '), writeln(Sol).
 
 hacer_pregunta(P,Candidatos,Sol,N_candidatos):-
     P = 'chico',es_chico(Chicos), member(Sol,Chicos), intersection(Candidatos,Chicos,N_candidatos),writeln('Si, es un chico!');
@@ -23,9 +22,9 @@ hacer_pregunta(P,Candidatos,Sol,N_candidatos):-
 
 hacer_pregunta(P,Candidatos,Sol,N_candidatos):-
     %si la pregunta es gafas y la solución tiene gafas, quedarse con los candidatos que tengan gafas
-    P = 'gafas', gafas(Gafotas), member(Sol,Gafotas),intersection(Candidatos,Gafotas,N_candidatos),writeln('Si, lleva gafas');
+    P = 'gafas', gafas(Gafas), member(Sol,Gafas),intersection(Candidatos,Gafas,N_candidatos),writeln('Si, lleva gafas');
     %si la solución no tiene gafas, quedarse con los que no llevan gafas.
-    P='gafas',gafas(Gafotas),resta(Candidatos,Gafotas,N_candidatos),writeln('No lleva gafas').
+    P='gafas',gafas(Gafas),resta(Candidatos,Gafas,N_candidatos),writeln('No lleva gafas').
 
 hacer_pregunta(P,Candidatos,Sol,N_candidatos):-
     %si la pregunta es pelo rubio, y el personaje es rubio
@@ -69,7 +68,9 @@ hacer_pregunta(P,Candidatos,Sol,N_candidatos):-
 
 hacer_pregunta(P,Candidatos,Sol,N_candidatos):- writeln('pregunta no reconocida :3'), append(Candidatos,[],N_candidatos).
 
+%caso base de resta
 resta(L,[],Resultado):-append(L,[],Resultado).	
+%resta de candidatos el segundo parametro, y la solucion la mete en resultado
 resta(Candidatos,[X|Aeliminar],Resultado):-
 	elimina(X,Candidatos,Resto_aux),
 	resta(Resto_aux,Aeliminar,Resultado).
@@ -79,10 +80,6 @@ elimina(X,[],[]).
 elimina(X,[H|T],[H|T1]):- elimina(X,T,T1).
 
 leer_pregunta(X):- write('haz tu pregunta: '), read(X).
-%pregunta optima: si tengo igual de una caracteristica q de la contraria, elijo esa, porque me divide en 2 el problema
-jugar_maquina(Preg,NPreg,Candidatos_maquina,Personaje_jugador,N_candidatos_maquina):- 
-    write('Ahora me toca a mi, '),random_select(P,Preg,NPreg), write(P), write(' ?'),
-    hacer_pregunta(P,Candidatos_maquina,Personaje_jugador,N_candidatos_maquina).
 
 imprimir_candidatos([Candidato|Candidatos]):- 
     write(Candidato), write(': '),print_genero(Candidato),write(', '),print_pelo(Candidato),write(', '),
@@ -93,11 +90,13 @@ print_genero(Candidato):- es_chico(Chicos) ,member(Candidato, Chicos), write('Ch
 print_pelo(Candidato):- pelo_rubio(Rubios), member(Candidato, Rubios), write('Pelo rubio');write('Pelo negro').
 print_ropa(Candidato):- ropa_roja(Rojos), member(Candidato, Rojos), write('Ropa roja');write('Ropa verde').
 print_estado(Candidato):-esta_triste(Tristes), member(Candidato, Tristes), write('triste');write('feliz').
-print_gafas(Candidato):-gafas(Gafotas), member(Candidato, Gafotas), write('lleva gafas');write('sin gafas').
+print_gafas(Candidato):-gafas(Gafas), member(Candidato, Gafas), write('lleva gafas');write('sin gafas').
 print_ojos(Candidato):-ojos_azules(OjosAzules), member(Candidato, OjosAzules), write('Ojos azules');write('Ojos marrones').
 
 calcular_posibilidades(N_Candidatos_maquina):-
+    %Si en la lista solo hay 1 elemento, la maquina sabe quien eres
     length(N_Candidatos_maquina,N), N = 1, writeln('Ya se quien eres!');
+    %si hay mas de 1, te informa de cuantos le quedan
     length(N_Candidatos_maquina,N), 
     write('mmm, dudo entre '),write(N),writeln(' posibilidades').
 
@@ -105,19 +104,23 @@ facil:-
     %recuperar todas las acciones disponibles
     preguntas(Preguntas),
     personas(Personas),
+    %asignar personaje para maquina y jugador
     random_select(Personaje_maquina,Personas,Personas2),
     random_select(Personaje_jugador, Personas2, _),
+    %crear listas de candidatos para maquina y jugador
     select(Personaje_maquina, Personas, Candidatos_maquina),
     select(Personaje_jugador, Personas, Candidatos_jugador),
-    writeln(Candidatos_jugador),
     write('tu personaje es: '), writeln(Personaje_jugador),
     write('DEBUG!! El personaje de la maquina es: '), writeln(Personaje_maquina),
     %ejecutar consola de juego
     jugar(Preguntas, Candidatos_jugador, Candidatos_maquina, Personaje_jugador, Personaje_maquina).
 
-jugar(Preguntas, [C1|Candidatos_jugador], [C2|Candidatos_maquina], Personaje_jugador, Personaje_maquina):-      
-    length(Candidatos_jugador, L),L=0,write('Tu ganas, mi personaje es '),writeln(C1);
-    length(Candidatos_maquina,L),L=0, write('Yo gano, tu personaje es '),writeln(C2).
+%casos base, si algunas de las listas de candidatos tienen solo 1 elemento, ese personaje ha ganado.
+%como juega primero la persona, si en el mismo turno ambos ganan, se da preferencia al jugador. 
+jugar(_, [Sol_jugador],_,_,_):- write('Tu ganas, mi personaje es '),writeln(Sol_jugador).
+jugar(_, _, [Sol_maquina],_,_):- write('Yu gano, tu personaje es '),writeln(Sol_maquina).
+
+%función recursiva para cada turno
 jugar(Preguntas, Candidatos_jugador, Candidatos_maquina, Personaje_jugador, Personaje_maquina):-      
     writeln('-------------------------------------------------------------------'),
     writeln('Tus candidatos a elegir son:'),
@@ -127,7 +130,6 @@ jugar(Preguntas, Candidatos_jugador, Candidatos_maquina, Personaje_jugador, Pers
     preguntas(L), writeln(L),
     leer_pregunta(P), hacer_pregunta(P,Candidatos_jugador,Personaje_maquina,N_candidatos_jugador),
     %turno maquina:
-    %jugar_maquina(Preguntas,NPreg,Candidatos_maquina,Personaje_jugador,N_candidatos_maquina),
     write('Ahora me toca a mi, '),random_select(Preg,Preguntas,NPreg), write(Preg), writeln(' ?'),
     hacer_pregunta(Preg,Candidatos_maquina,Personaje_jugador,N_Candidatos_maquina),
     calcular_posibilidades(N_Candidatos_maquina),
