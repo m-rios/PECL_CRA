@@ -115,7 +115,7 @@ dificil:-
     turno_dificil(Preguntas, Candidatos_jugador, Candidatos_maquina, Personaje_jugador, Personaje_maquina).
 
 turno_dificil(_, [C1],_,_,_):- write('Tu ganas, mi personaje es '),writeln(C1).
-turno_dificil(_, _, [C2],_,_):- write('Yu gano, tu personaje es '),writeln(C2).
+turno_dificil(_, _, [C2],_,_):- write('Yo gano, tu personaje es '),writeln(C2).
 
 turno_dificil(Preguntas, Candidatos_jugador, Candidatos_maquina, Personaje_jugador, Personaje_maquina):-      
     writeln('-------------------------------------------------------------------'),

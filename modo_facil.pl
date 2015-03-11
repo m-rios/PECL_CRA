@@ -16,7 +16,7 @@ facil:-
 %casos base, si algunas de las listas de candidatos tienen solo 1 elemento, ese personaje ha ganado.
 %como juega primero la persona, si en el mismo turno ambos ganan, se da preferencia al jugador. 
 turno_facil(_, [Sol_jugador],_,_,_):- write('Tu ganas, mi personaje es '),writeln(Sol_jugador).
-turno_facil(_, _, [Sol_maquina],_,_):- write('Yu gano, tu personaje es '),writeln(Sol_maquina).
+turno_facil(_, _, [Sol_maquina],_,_):- write('Yo gano, tu personaje es '),writeln(Sol_maquina).
 
 %función recursiva para cada turno
 turno_facil(Preguntas, Candidatos_jugador, Candidatos_maquina, Personaje_jugador, Personaje_maquina):-      
