@@ -222,9 +222,10 @@ dificil:-
     jugar(Preguntas, Candidatos_jugador, Candidatos_maquina, Personaje_jugador, Personaje_maquina).
 
 
-jugar(_, [C1|Candidatos_jugador], [C2|Candidatos_maquina], _, _):-      
-    length(Candidatos_jugador, L),L=0,write('Tu ganas, mi personaje es '),writeln(C1);
-    length(Candidatos_maquina,L),L=0, write('Yo gano, tu personaje es '),writeln(C2).
+
+jugar(_, [C1],_,_,_):- write('Tu ganas, mi personaje es '),writeln(C1).
+jugar(_, _, [C2],_,_):- write('Yu gano, tu personaje es '),writeln(C2).
+
 jugar(Preguntas, Candidatos_jugador, Candidatos_maquina, Personaje_jugador, Personaje_maquina):-      
     writeln('-------------------------------------------------------------------'),
     writeln('Tus candidatos a elegir son:'),
