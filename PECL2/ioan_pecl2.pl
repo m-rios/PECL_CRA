@@ -1,20 +1,23 @@
 % Reglas gramaticales
+consult(draw).
 
 oracion(o(GN,GV)) --> g_nominal(GN), g_verbal(GV).
-oracion(o(GN,OR,GV)) --> g_nominal(GN), orsubordinada(OR), g_verbal(GV).
 
 orsubordinada(or(C,GV)) --> conjunciones(C), g_verbal(GV).
 
 g_nominal(gn(N)) --> nombre(N).
 g_nominal(gn(D,N)) --> determinante(D), nombre(N).
-g_nominal(gn(D,N,A)) --> determinante(D), nombre(N), adjetivo(A).
-g_nominal(gn(N,A)) --> nombre(N), adjetivo(A).
+g_nominal(gn(D,N,ADJ)) --> determinante(D), nombre(N), g_adjetival(ADJ).
+g_nominal(gn(N,ADJ)) --> nombre(N), g_adjetival(ADJ).
 
 g_verbal(gv(V)) --> verbo(V).
 g_verbal(gv(V,GN)) --> verbo(V), g_nominal(GN).
 g_verbal(gv(V,P,GN)) --> verbo(V), preposicion(P) ,g_nominal(GN).
-g_verbal(gv(V,ADJ)) --> verbo(V), adjetivo(ADJ).
+g_verbal(gv(V,ADJ)) --> verbo(V), g_adjetival(ADJ).
 
+
+g_adjetival(gadj(A)) --> adjetivo(A).
+g_adjetival(gadj(OR)) --> orsubordinada(OR).
 
 %Diccionario
 
