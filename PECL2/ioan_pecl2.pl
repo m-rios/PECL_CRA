@@ -16,9 +16,11 @@ g_verbal(gv(V,P,GN)) --> verbo(V), preposicion(P) ,g_nominal(GN).
 g_verbal(gv(V,ADJ)) --> verbo(V), g_adjetival(ADJ).
 
 
-g_adjetival(gadj(A)) --> adjetivo(A).
+g_adjetival(gadj(ADJ)) --> adjetivo(ADJ).
 g_adjetival(gadj(OR)) --> orsubordinada(OR).
 
+g_adverbial(gadv(A)) --> adverbio(ADV).
+g_adverbial(gadj(OR)) --> orsubordinada(OR).
 %Diccionario
 
 %determinantes
@@ -32,8 +34,6 @@ det(una).
 nombre(n(X)) --> [X],{n(X)}.
 n(hombre).
 n(mujer).
-n(juan).
-n(maria).
 n(manzanas).
 n(universidad).
 n(manzana).
@@ -41,7 +41,10 @@ n(gato).
 n(ratones).
 n(raton).
 n(alumno).
-n(unive).
+
+nombrePropio(n(X)) --> [X],{n(X)}.
+np(juan).
+np(maria).
 
 %verbos
 verbo(v(X)) --> [X],{v(X)}.
