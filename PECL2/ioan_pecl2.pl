@@ -2,6 +2,11 @@
 
 test:- consult(draw), oracionCompuesta(X,[el,gato,que,es,gris,ama,a,maria,que,es,negro],[]), draw(X). 
 
+countV([X|L],P):-countV(L,P1), v(X), P is P1+1.
+countV([_|L],P):-countV(L,P).
+countV([],0).
+
+
 oracion(o(GN,GV)) --> g_nominal(GN), g_verbal(GV).
 oracion(o(GV)) --> g_verbal(GV).
 
