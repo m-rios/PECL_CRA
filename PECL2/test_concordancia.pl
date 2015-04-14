@@ -29,6 +29,8 @@ g_adjetival(gadj(ADJ),Gen,Num,Per) --> adjetivo(ADJ,Gen,Num,Per).
 %Diccionario
 %verbos
 verbo(v(X),Gen,Num,Per) --> [X],{v(X,Gen,Num,Per)}.
+verbo(v(X),_,_,_) --> [X],{v(X,_,_,_),writeln('fallo de concordancia')}.
+verbo(_,_,_,_) --> [_],{writeln('palabra no reconocida')}.
 v(ama,_,s,3).
 v(come,_,s,3).
 v(cazo,_,s,3).
@@ -42,6 +44,8 @@ v(era,_,s,3).
 
 %determinantes
 determinante(det(X),Gen,Num,Per) --> [X],{det(X,Gen,Num,Per)}.
+determinante(det(X),_,_,_) --> [X],{det(X,_,_,_),writeln('fallo de concordancia')}.
+determinante(_,_,_,_) --> [_],{writeln('palabra no reconocida')}.
 det(el,m,s,_).
 det(la,f,s,_).
 det(un,m,s,_).
@@ -49,6 +53,8 @@ det(una,f,s,_).
 
 %nombres
 nombre(n(X),Gen,Num,Per) --> [X],{n(X,Gen,Num,Per)}.
+nombre(n(X),_,_,_) --> [X],{n(X,_,_,_),writeln('fallo de concordancia')}.
+nombre(_,_,_,_) --> [_],{writeln('palabra no reconocida')}.
 n(hombre,m,s,_).
 n(mujer,f,s,_).
 n(manzanas,f,p,_).
@@ -62,6 +68,8 @@ n(alumno,m,s,_).
 
 %adjetivos
 adjetivo(adj(X),Gen,Num,Per) --> [X],{adj(X,Gen,Num,Per)}.
+adjetivo(adj(X),_,_,_) --> [X],{adj(X,_,_,_),writeln('fallo de concordancia')}.
+adjetivo(_,_,_,_) --> [_],{writeln('palabra no reconocida')}.
 adj(roja,f,s,_). 
 adj(rojo,m,s,_).
 adj(negro,m,s,_).
