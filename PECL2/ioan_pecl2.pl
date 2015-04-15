@@ -52,15 +52,12 @@ antitest20:-analizar([el,procesador,de,textos,es,una,herramienta,muy,potente,que
 analizar(ORACION):-consult(draw),countV(ORACION,V), V = 1, oracionSimple(X,ORACION,[]), draw(X).
 analizar(ORACION):- oracionCompuesta(X,ORACION,[]), draw(X).
 
-oracion(o(GN,GV),_,Nu,Pe,C=C2) --> g_nominal(GN,_,Nu,Pe,C), g_verbal(GV,_,Nu,Pe,C2).
+oracion(o(GN,GV),_,Nu,Pe,C) --> g_nominal(GN,_,Nu,Pe,C), g_verbal(GV,_,Nu,Pe,C).
 oracion(o(GV),_,_,_,C) --> g_verbal(GV,_,_,_,C).
 
-oracionSimple(X) --> oracion(X,_,_,_,C),{C}.
-oracionSimple(X) --> oracion(X,_,_,_,C),{not(C),writeln('Fallo de concordancia')}.
-oracionCompuesta(X) --> orsubordinada(X,_,_,_,C),{C}.
-oracionCompuesta(X) --> orsubordinada(X,_,_,_,C),{not(C),writeln('Fallo de concordancia')}.
-oracionCompuesta(X) --> orcoordinada(X,_,_,_,C),{C}.
-oracionCompuesta(X) --> orcoordinada(X,_,_,_,C),{not(C),writeln('Fallo de concordancia')}.
+oracionSimple(X) --> oracion(X,_,_,_,C).
+oracionCompuesta(X) --> orsubordinada(X,_,_,_,C).
+oracionCompuesta(X) --> orcoordinada(X,_,_,_,C).
 
 orcoordinada((oc(OR1, PR, OR2)),_,_,_,C) --> oracion(OR1,_,_,_,C), nexo(PR), oracion(OR2,_,_,_,C).
 orcoordinada((oc(OR1, PR1, OR2, PR2, OR3)),_,_,_,C) --> oracion(OR1,_,_,_,C), nexo(PR1), oracion(OR2,_,_,_,C), nexo(PR2), oracion(OR3,_,_,_,C).
@@ -101,7 +98,7 @@ g_verbal(gv(V),_,Nu,Pe,C) --> verbo(V,_,Nu,Pe,C). %frase 5, 13, 18
 
 g_adjetival(gadj(ADJ),Ge,Nu,_,C) --> adjetivo(ADJ,Ge,Nu,_,C).
 g_adjetival(gadj(ADV,ADJ),Ge,Nu,_,C) --> adverbio(ADV), adjetivo(ADJ,Ge,Nu,_,C).
-g_adjetival(gadj(CJ,OR),_,_,_,_) --> conjunciones(CJ), orsubordinada(OR,_,_,_,C).
+g_adjetival(gadj(CJ,OR),_,_,_,C) --> conjunciones(CJ), orsubordinada(OR,_,_,_,C).
 
 g_adverbial(gadv(ADV1,ADV2)) --> adverbio(ADV1),adverbio(ADV2) .
 g_adverbial(gadv(ADV,GN)) --> adverbio(ADV), g_nominal(GN,_,_,_,_).
