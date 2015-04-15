@@ -2,7 +2,7 @@
 
 test:- consult(draw), oracionCompuesta(X,[el,gato,que,es,gris,ama,a,maria,que,es,negro],[]), draw(X). 
 
-countV([X|L],P):-countV(L,P1), v(X), P is P1+1.
+countV([X|L],P):-countV(L,P1), v(X,_,_,_), P is P1+1.
 countV([_|L],P):-countV(L,P).
 countV([],0).
 
@@ -12,17 +12,17 @@ test3:-analizar([juan,y,maria,comen,la,manzana,roja,con,un,tenedor,y,un,cuchillo
 test4:-analizar([ella,hace,la,practica,de,juan]).
 test5:-analizar([el,canario,de,juan,y,maria,canta]).
 test6:-analizar([la,blanca,paloma,alzo,el,vuelo]).
-test7:-analizar([está,muy,lejos,de,madrid]).
-test8:-analizar([él,es,lento,de,reflejos]).
+test7:-analizar([esta,muy,lejos,de,madrid]).
+test8:-analizar([el,es,lento,de,reflejos]).
 test9:-analizar([juan,habla,muy,claramente]).
-test10:-analizar([la,esperanza,de,vida,de,un,niño,depende,de,su,lugar,de,nacimiento]).
+test10:-analizar([la,esperanza,de,vida,de,un,nino,depende,de,su,lugar,de,nacimiento]).
 test11:-analizar([el,hombre,que,vimos,en,la,universidad,era,mi,profesor]).
 test12:-analizar([juan,que,es,muy,delicado,come,solamente,manzanas,rojas]).
 test13:-analizar([el,procesador,de,textos,que,es,una,herramienta,muy,potente,sirve,para,escribir,documentos]).
 test14:-analizar([juan,es,moreno,y,maria,es,alta]).
-test15:-analizar([juan,recoge,la,mesa,mientras,maria,toma,un,café]).
-test16:-analizar([compré,un,pantalón,y,una,corbata,negros]).
-test17:-analizar([juan,y,héctor,comen,patatas,fritas,y,beben,cerveza]).
+test15:-analizar([juan,recoge,la,mesa,mientras,maria,toma,un,cafe]).
+test16:-analizar([compre,un,pantalon,y,una,corbata,negros]).
+test17:-analizar([juan,y,hector,comen,patatas,fritas,y,beben,cerveza]).
 test18:-analizar([irene,canta,y,salta,mientras,juan,estudia]).
 test19:-analizar([irene,canta,y,salta,y,sonrie,alegre]).
 test20:-analizar([el,procesador,de,textos,es,una,herramienta,muy,potente,que,sirve,para,escribir,documentos,pero,es,bastante,lento]).
@@ -32,9 +32,10 @@ test20:-analizar([el,procesador,de,textos,es,una,herramienta,muy,potente,que,sir
 
 
 
-analizar(ORACION):-consult(draw),countV(ORACION,V), V = 1, oracion(X,ORACION,[]), draw(X).
+analizar(ORACION):-consult(draw),countV(ORACION,V), V = 1, axioma_oracion(X,ORACION,[]), draw(X).
 analizar(ORACION):- oracionCompuesta(X,ORACION,[]), draw(X).
 
+axioma_oracion(O) --> oracion(O,_,_,_,_).
 oracion(o(GN,GV),Gen,Num,Per,C) --> g_nominal(GN,Gen,Num,Per,C), g_verbal(GV,Gen,Num,Per,C).
 oracion(o(GV),Gen,Num,Per,C) --> g_verbal(GV,Gen,Num,Per,C).
 
@@ -53,19 +54,19 @@ g_preposicional(gp(PR,V, N),Gen,Num,Per,C) --> preposicion(PR),verbo(V,Gen,Num,P
 
 
 g_nominal(gn(D, N, PREP),Gen,Num,Per,C) --> determinante(D,Gen,Num,Per,C), nombre(N,Gen,Num,Per,C), g_preposicional(PREP,Gen,Num,Per,C).
-g_nominal(gn(D, N, ADJ),Gen,Num,Per,C) --> determinante(D,Gen,Num,Per,C), nombre(N,Gen,Num,Per,C), g_adjetival(ADJ).
-g_nominal(gn(N, ADJ),Gen,Num,Per,C) --> nombre(N,Gen,Num,Per,C), g_adjetival(ADJ).
-g_nominal(gn(N, ADJ),Gen,Num,Per,C) --> nombrePropio(N,Gen,Num,Per,C), g_adjetival(ADJ).
+g_nominal(gn(D, N, ADJ),Gen,Num,Per,C) --> determinante(D,Gen,Num,Per,C), nombre(N,Gen,Num,Per,C), g_adjetival(ADJ,Gen,Num,Per,C).
+g_nominal(gn(N, ADJ),Gen,Num,Per,C) --> nombre(N,Gen,Num,Per,C), g_adjetival(ADJ,Gen,Num,Per,C).
+g_nominal(gn(N, ADJ),Gen,Num,Per,C) --> nombrePropio(N,Gen,Num,Per,C), g_adjetival(ADJ,Gen,Num,Per,C).
 g_nominal(gn(N1, PR, N2),Gen,Num,Per,C) --> nombrePropio(N1,Gen,Num,Per,C), nexo(PR), nombrePropio(N2,Gen,Num,Per,C).
-g_nominal(gn(D1, N1, PR, D2, N2, ADJ),Gen,Num,Per,C) --> determinante(D1,Gen,Num,Per,C), nombre(N1,Gen,Num,Per,C), nexo(PR), determinante(D2,Gen,Num,Per,C), nombre(N2,Gen,Num,Per,C),g_adjetival(ADJ).
+g_nominal(gn(D1, N1, PR, D2, N2, ADJ),Gen,Num,Per,C) --> determinante(D1,Gen,Num,Per,C), nombre(N1,Gen,Num,Per,C), nexo(PR), determinante(D2,Gen,Num,Per,C), nombre(N2,Gen,Num,Per,C),g_adjetival(ADJ,Gen,Num,Per,C).
 g_nominal(gn(D1, N1, PR, D2, N2),Gen,Num,Per,C) --> determinante(D1,Gen,Num,Per,C), nombre(N1,Gen,Num,Per,C), nexo(PR), determinante(D2,Gen,Num,Per,C), nombre(N2,Gen,Num,Per,C).
-g_nominal(gn(D, ADJ, N),Gen,Num,Per,C) --> determinante(D,Gen,Num,Per,C), g_adjetival(ADJ), nombre(N,Gen,Num,Per,C).
+g_nominal(gn(D, ADJ, N),Gen,Num,Per,C) --> determinante(D,Gen,Num,Per,C), g_adjetival(ADJ,Gen,Num,Per,C), nombre(N,Gen,Num,Per,C).
 g_nominal(gn(D, N),Gen,Num,Per,C) --> determinante(D,Gen,Num,Per,C), nombre(N,Gen,Num,Per,C).
 g_nominal(gn(N),Gen,Num,Per,C) --> nombrePropio(N,Gen,Num,Per,C).
 g_nominal(gn(N),Gen,Num,Per,C) --> nombre(N,Gen,Num,Per,C).
 
-g_verbal(gv(V1,PR1,V2,PR2,V3,ADJ),Gen,Num,Per,C) --> verbo(V1,Gen,Num,Per,C), nexo(PR1), verbo(V2,Gen,Num,Per,C),nexo(PR2), verbo(V3,Gen,Num,Per,C), g_adjetival(ADJ).
-g_verbal(gv(V1,PR,V2, ADJ),Gen,Num,Per,C) --> verbo(V1,Gen,Num,Per,C), nexo(PR), verbo(V2,Gen,Num,Per,C), g_adjetival(ADJ).
+g_verbal(gv(V1,PR1,V2,PR2,V3,ADJ),Gen,Num,Per,C) --> verbo(V1,Gen,Num,Per,C), nexo(PR1), verbo(V2,Gen,Num,Per,C),nexo(PR2), verbo(V3,Gen,Num,Per,C), g_adjetival(ADJ,Gen,Num,Per,C).
+g_verbal(gv(V1,PR,V2, ADJ),Gen,Num,Per,C) --> verbo(V1,Gen,Num,Per,C), nexo(PR), verbo(V2,Gen,Num,Per,C), g_adjetival(ADJ,Gen,Num,Per,C).
 g_verbal(gv(V1,PR,V2),Gen,Num,Per,C) --> verbo(V1,Gen,Num,Per,C), nexo(PR), verbo(V2,Gen,Num,Per,C).
 
 g_verbal(gv(V,GPR),Gen,Num,Per,C) --> verbo(V,Gen,Num,Per,C), g_preposicional(GPR,Gen,Num,Per,C).
@@ -75,8 +76,8 @@ g_verbal(gv(V,GN,ADV,ORSUB),Gen,Num,Per,C) --> verbo(V,Gen,Num,Per,C), g_nominal
 g_verbal(gv(V,ADV,GPR),Gen,Num,Per,C) --> verbo(V,Gen,Num,Per,C), g_adverbial(ADV,Gen,Num,Per,C), g_preposicional(GPR,Gen,Num,Per,C).
 g_verbal(gv(V,ADV),Gen,Num,Per,C) --> verbo(V,Gen,Num,Per,C), g_adverbial(ADV,Gen,Num,Per,C).
 
-g_verbal(gv(V,ADJ,GPR),Gen,Num,Per,C) --> verbo(V,Gen,Num,Per,C), g_adjetival(ADJ), g_preposicional(GPR,Gen,Num,Per,C).
-g_verbal(gv(V,ADJ),Gen,Num,Per,C) --> verbo(V,Gen,Num,Per,C), g_adjetival(ADJ).
+g_verbal(gv(V,ADJ,GPR),Gen,Num,Per,C) --> verbo(V,Gen,Num,Per,C), g_adjetival(ADJ,Gen,Num,Per,C), g_preposicional(GPR,Gen,Num,Per,C).
+g_verbal(gv(V,ADJ),Gen,Num,Per,C) --> verbo(V,Gen,Num,Per,C), g_adjetival(ADJ,Gen,Num,Per,C).
 
 
 g_verbal(gv(V,GN,GPR),Gen,Num,Per,C) --> verbo(V,Gen,Num,Per,C), g_nominal(GN,Gen,Num,Per,C), g_preposicional(GPR,Gen,Num,Per,C).
@@ -113,7 +114,7 @@ det(una,f,s,_).
 nombre(n(X),Gen,Num,Per,C) --> [X],{n(X,Gen,Num,Per),C=true}.
 nombre(n(X),_,_,_,C) --> [X],{n(X,_,_,_),C=false}.
 n(hombre,m,s,_).
-n(él,m,s,3).
+n(el,m,s,3).
 n(ella,f,s,3).
 n(mujer,f,s,_).
 n(manzanas,f,p,_).
@@ -124,8 +125,8 @@ n(gato,m,s,_).
 n(canario,m,s,_).
 n(ratones,m,p,_).
 n(raton,m,s,_).
-n(niño,m,s,_).
-n(pantalón,m,s,_).
+n(nino,m,s,_).
+n(pantalon,m,s,_).
 n(tenedor,m,s,_).
 n(cuchillo,m,s,_).
 n(corbata,f,s,_).
@@ -141,9 +142,9 @@ n(nacimiento,m,s,_).
 n(procesador,m,s,_).
 n(textos,m,p,_).
 n(herramienta,f,s,_).
-n(documentos,m,p§,_).
+n(documentos,m,p,_).
 n(mesa,f,s,_).
-n(café,m,s,_).
+n(cafe,m,s,_).
 n(patatas,f,p,_).
 n(cerveza,f,s,_).
 
@@ -152,34 +153,34 @@ nombrePropio(np(X),_,_,_,C) --> [_],{np(X,_,_,_),C=false}.
 np(juan,m,s,_).
 np(maria,f,s,_).
 np(irene,f,s,_).
-np(héctor,m,s,_).
+np(hector,m,s,_).
 np(madrid,m,s,_).
 
 %verbos
 verbo(v(X),Gen,Num,Per,C) --> [X],{v(X,Gen,Num,Per),C=true}.
 verbo(v(X),_,_,_,C) --> [X],{v(X,_,_,_),C=false}.
-v(ama_,s,3).
-v(come_,s,3).
-v(comen_,p,3).
-v(cazó_,s,3).
-v(estudia_,s,3).
-v(depende_,s,3).
-v(escribir_,_,_).
-v(compré_,s,1).
-v(canta_,s,3).
-v(es_,s,3).
-v(salta_,s,3).
-v(sonrie_,s,3).
-v(era_,s,3).
-v(hace_,s,3).
-v(habla_,s,3).
-v(está_,s,3).
-v(alzó_,s,3).
-v(vimos_,p,1).
-v(recoge_,s,3).
-v(sirve_,s,3).
-v(toma_,s,3).
-v(beben_,p,3).
+v(ama,_,s,3).
+v(come,_,s,3).
+v(comen,_,p,3).
+v(cazo,_,s,3).
+v(estudia,_,s,3).
+v(depende,_,s,3).
+v(escribir,_,_,_).
+v(compre,_,s,1).
+v(canta,_,s,3).
+v(es,_,s,3).
+v(salta,_,s,3).
+v(sonrie,_,s,3).
+v(era,_,s,3).
+v(hace,_,s,3).
+v(habla,_,s,3).
+v(esta,_,s,3).
+v(alzo,_,s,3).
+v(vimos,_,p,1).
+v(recoge,_,s,3).
+v(sirve,_,s,3).
+v(toma,_,s,3).
+v(beben,_,p,3).
 
 %conjunciones
 conjunciones(conj(X)) --> [X],{conj(X)}.
@@ -214,7 +215,7 @@ adj(gris,_,s,_).
 adj(fritas,f,_,_).
 adj(negros,m,p,_).
 adj(alegre,_,s,_).
-adj(pequeño,m,s,_).	
+adj(pequeno,m,s,_).	
 adj(lento,m,s,_).	
 
 %adverbios
