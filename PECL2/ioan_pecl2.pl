@@ -27,11 +27,11 @@ test18:-analizar([irene,canta,y,salta,mientras,juan,estudia]).
 test19:-analizar([irene,canta,y,salta,y,sonrie,alegre]).
 test20:-analizar([el,procesador,de,textos,es,una,herramienta,muy,potente,que,sirve,para,escribir,documentos,pero,es,bastante,lento]).
 
-antitest1:-analizar([el,hombre,grande,come,la,manzana,roja]).
+antitest1:-analizar([el,hombre,grande,come,la,manzanas,roja]).
 antitest2:-analizar([el,hombre,con,un,tenedor,grande,come,la,manzana,roja]).
-antitest3:-analizar([juan,y,maria,comen,la,manzana,roja,con,un,tenedor,y,un,cuchillo]).
-antitest4:-analizar([ella,hace,la,practica,de,juan]).
-antitest5:-analizar([el,canario,de,juan,y,maria,canta]).
+antitest3:-analizar([juan,y,maria,come,la,manzana,roja,con,un,tenedor,y,un,cuchillo]).
+antitest4:-analizar([ella,comen,la,practica,de,juan]).
+antitest5:-analizar([el,canario,de,juan,y,maria,comen]).
 antitest6:-analizar([la,blanca,paloma,alzo,el,vuelo]).
 antitest7:-analizar([esta,muy,lejos,de,madrid]).
 antitest8:-analizar([el,es,lento,de,reflejos]).
@@ -49,19 +49,23 @@ antitest19:-analizar([irene,canta,y,salta,y,sonrie,alegre]).
 antitest20:-analizar([el,procesador,de,textos,es,una,herramienta,muy,potente,que,sirve,para,escribir,documentos,pero,es,bastante,lento]).
 
 
-analizar(ORACION):-consult(draw),countV(ORACION,V), V = 1, oracion(X,ORACION,[]), draw(X).
+analizar(ORACION):-consult(draw),countV(ORACION,V), V = 1, oracionSimple(X,ORACION,[]), draw(X).
 analizar(ORACION):- oracionCompuesta(X,ORACION,[]), draw(X).
 
-oracion(o(GN,GV)) --> g_nominal(GN,_,_,_,_), g_verbal(GV).
-oracion(o(GV)) --> g_verbal(GV).
+oracion(o(GN,GV),_,Nu,Pe,C=C2) --> g_nominal(GN,_,Nu,Pe,C), g_verbal(GV,_,Nu,Pe,C2).
+oracion(o(GV),_,_,_,C) --> g_verbal(GV,_,_,_,C).
 
-oracionCompuesta(X) --> orsubordinada(X).
-oracionCompuesta(X) --> orcoordinada(X).
+oracionSimple(X) --> oracion(X,_,_,_,C),{C}.
+oracionSimple(X) --> oracion(X,_,_,_,C),{not(C),writeln('Fallo de concordancia')}.
+oracionCompuesta(X) --> orsubordinada(X,_,_,_,C),{C}.
+oracionCompuesta(X) --> orsubordinada(X,_,_,_,C),{not(C),writeln('Fallo de concordancia')}.
+oracionCompuesta(X) --> orcoordinada(X,_,_,_,C),{C}.
+oracionCompuesta(X) --> orcoordinada(X,_,_,_,C),{not(C),writeln('Fallo de concordancia')}.
 
-orcoordinada((oc(OR1, PR, OR2))) --> oracion(OR1), nexo(PR), oracion(OR2).
-orcoordinada((oc(OR1, PR1, OR2, PR2, OR3))) --> oracion(OR1), nexo(PR1), oracion(OR2), nexo(PR2), oracion(OR3).
+orcoordinada((oc(OR1, PR, OR2)),_,_,_,C) --> oracion(OR1,_,_,_,C), nexo(PR), oracion(OR2,_,_,_,C).
+orcoordinada((oc(OR1, PR1, OR2, PR2, OR3)),_,_,_,C) --> oracion(OR1,_,_,_,C), nexo(PR1), oracion(OR2,_,_,_,C), nexo(PR2), oracion(OR3,_,_,_,C).
 
-orsubordinada(or(OR)) --> oracion(OR).
+orsubordinada(or(OR),_,_,_,C) --> oracion(OR,_,_,_,C).
 
 g_preposicional(gp(PR,GN)) --> preposicion(PR), nombre(GN,_,_,_,_).
 g_preposicional(gp(PR,GN)) --> preposicion(PR),  g_nominal(GN,_,_,_,_).
@@ -82,22 +86,22 @@ g_nominal(gn(D, N),Ge,Nu,Pe,C) --> determinante(D,Ge,Nu,Pe,C), nombre(N,Ge,Nu,Pe
 g_nominal(gn(N),Ge,Nu,Pe,C) --> nombrePropio(N,Ge,Nu,Pe,C),{C}. %frase 4, 7, 9, 14(x2), 15(x2), 18, 19
 g_nominal(gn(N),Ge,Nu,Pe,C) --> nombre(N,Ge,Nu,Pe,C),{C}. %frase 4, 8, 10, 12
 													
-g_verbal(gv(V1,PR1,V2,PR2,V3,ADJ)) --> verbo(V1,_,_,_,_), nexo(PR1), verbo(V2,_,_,_,_),nexo(PR2), verbo(V3,_,_,_,_), g_adjetival(ADJ,_,_,_,_). %frase 19
-g_verbal(gv(V1,PR,V2)) --> verbo(V1,_,_,_,_), nexo(PR), verbo(V2,_,_,_,_). % frase 18
-g_verbal(gv(V,GPR)) --> verbo(V,_,_,_,_), g_preposicional(GPR). % frase 10, 20
-g_verbal(gv(V,GN,ADJ)) --> verbo(V,_,_,_,_), g_nominal(GN,Ge,Nu,_,C),g_adjetival(ADJ,Ge,Nu,_,C). %frase 13 
-g_verbal(gv(V,ADV,GN,ADJ)) --> verbo(V,_,_,_,_), g_adverbial(ADV),g_nominal(GN,Ge,Nu,_,C), g_adjetival(ADJ,Ge,Nu,_,C). %frase 12, 20
-g_verbal(gv(V,ADV,GPR)) --> verbo(V,_,_,_,_), g_adverbial(ADV), g_preposicional(GPR). %frase 7
-g_verbal(gv(V,ADV)) --> verbo(V,_,_,_,_), g_adverbial(ADV). %frase 9
-g_verbal(gv(V,ADJ,GPR)) --> verbo(V,_,_,_,_), g_adjetival(ADJ,_,_,_,_), g_preposicional(GPR). %frase 8
-g_verbal(gv(V,ADJ)) --> verbo(V,_,_,_,_), g_adjetival(ADJ,_,_,_,_). % frase 14(dos veces) 
-g_verbal(gv(V,GN,GPR)) --> verbo(V,_,_,_,_), g_nominal(GN,_,_,_,_), g_preposicional(GPR). %frase 3, 4
-g_verbal(gv(V,GN)) --> verbo(V,_,_,_,_), g_nominal(GN,_,_,_,_). %frase 1,2,6, 11, 15 (x2), 16, 17(x2), 
-g_verbal(gv(V)) --> verbo(V,_,_,_,_). %frase 5, 13, 18
+g_verbal(gv(V1,PR1,V2,PR2,V3,ADJ),Ge,Nu,Pe,C) --> verbo(V1,_,Nu,Pe,C), nexo(PR1), verbo(V2,_,Nu,Pe,C),nexo(PR2), verbo(V3,_,Nu,Pe,C), g_adjetival(ADJ,Ge,Nu,_,C). %frase 19
+g_verbal(gv(V1,PR,V2),_,Nu,Pe,C) --> verbo(V1,_,Nu,Pe,C), nexo(PR), verbo(V2,_,Nu,Pe,C). % frase 18
+g_verbal(gv(V,GPR),_,Nu,Pe,C) --> verbo(V,_,Nu,Pe,C), g_preposicional(GPR). % frase 10, 20
+g_verbal(gv(V,GN,ADJ),_,Nu,Pe,C) --> verbo(V,_,Nu,Pe,C), g_nominal(GN,Ge,Nu2,_,C),g_adjetival(ADJ,Ge,Nu2,_,C). %frase 13 
+g_verbal(gv(V,ADV,GN,ADJ),_,Nu,Pe,C) --> verbo(V,_,Nu,Pe,C), g_adverbial(ADV),g_nominal(GN,Ge,Nu2,_,C), g_adjetival(ADJ,Ge,Nu2,_,C). %frase 12, 20
+g_verbal(gv(V,ADV,GPR),_,Nu,Pe,C) --> verbo(V,_,Nu,Pe,C), g_adverbial(ADV), g_preposicional(GPR). %frase 7
+g_verbal(gv(V,ADV),_,Nu,Pe,C) --> verbo(V,_,Nu,Pe,C), g_adverbial(ADV). %frase 9
+g_verbal(gv(V,ADJ,GPR),_,Nu,Pe,C) --> verbo(V,_,Nu,Pe,C), g_adjetival(ADJ,_,_,_,_), g_preposicional(GPR). %frase 8
+g_verbal(gv(V,ADJ),_,Nu,Pe,C) --> verbo(V,_,Nu,Pe,C), g_adjetival(ADJ,_,_,_,_). % frase 14(dos veces) 
+g_verbal(gv(V,GN,GPR),_,Nu,Pe,C) --> verbo(V,_,Nu,Pe,C), g_nominal(GN,_,_,_,_), g_preposicional(GPR). %frase 3, 4
+g_verbal(gv(V,GN),_,Nu,Pe,C) --> verbo(V,_,Nu,Pe,C), g_nominal(GN,_,_,_,_). %frase 1,2,6, 11, 15 (x2), 16, 17(x2), 
+g_verbal(gv(V),_,Nu,Pe,C) --> verbo(V,_,Nu,Pe,C). %frase 5, 13, 18
 
 g_adjetival(gadj(ADJ),Ge,Nu,_,C) --> adjetivo(ADJ,Ge,Nu,_,C).
 g_adjetival(gadj(ADV,ADJ),Ge,Nu,_,C) --> adverbio(ADV), adjetivo(ADJ,Ge,Nu,_,C).
-g_adjetival(gadj(CJ,OR),_,_,_,_) --> conjunciones(CJ), orsubordinada(OR).
+g_adjetival(gadj(CJ,OR),_,_,_,_) --> conjunciones(CJ), orsubordinada(OR,_,_,_,C).
 
 g_adverbial(gadv(ADV1,ADV2)) --> adverbio(ADV1),adverbio(ADV2) .
 g_adverbial(gadv(ADV,GN)) --> adverbio(ADV), g_nominal(GN,_,_,_,_).
