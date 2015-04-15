@@ -46,31 +46,35 @@ orcoordinada((oc(OR1, PR1, OR2, PR2, OR3))) --> oracion(OR1), nexo(PR1), oracion
 
 orsubordinada(or(OR)) --> oracion(OR).
 
-g_preposicional(gp(PR,GN, GPRP)) --> preposicion(PR), g_nominal(GN), g_preposicional(GPRP).
 g_preposicional(gp(PR,GN)) --> preposicion(PR), nombre(GN).
+g_preposicional(gp(PR,V, N,GPRP)) --> preposicion(PR),verbo(V), nombre(N), g_preposicional(GPRP) .
+g_preposicional(gp(PR,GN, GPRP)) --> preposicion(PR), g_nominal(GN), g_preposicional(GPRP).
 g_preposicional(gp(PR,GN)) --> preposicion(PR), g_nominal(GN).
 g_preposicional(gp(PR,V, N)) --> preposicion(PR),verbo(V), nombre(N) .
 
 
+g_nominal(gn(D, N, PREP, ORSUB_ADJ)) --> determinante(D), nombre(N), g_preposicional(PREP), g_adjetival(ORSUB_ADJ).
 g_nominal(gn(D, N, PREP)) --> determinante(D), nombre(N), g_preposicional(PREP).
-g_nominal(gn(D, N, ADJ)) --> determinante(D), nombre(N), g_adjetival(ADJ).
+%g_nominal(gn(D, N, ADV,ADJ)) --> determinante(D), nombre(N), g_adverbial(ADV),g_adjetival(ADJ).
 g_nominal(gn(N, ADJ)) --> nombre(N), g_adjetival(ADJ).
 g_nominal(gn(N, ADJ)) --> nombrePropio(N), g_adjetival(ADJ).
 g_nominal(gn(N1, PR, N2)) --> nombrePropio(N1), nexo(PR), nombrePropio(N2).
 g_nominal(gn(D1, N1, PR, D2, N2, ADJ)) --> determinante(D1), nombre(N1), nexo(PR), determinante(D2), nombre(N2),g_adjetival(ADJ).
 g_nominal(gn(D1, N1, PR, D2, N2)) --> determinante(D1), nombre(N1), nexo(PR), determinante(D2), nombre(N2).
 g_nominal(gn(D, ADJ, N)) --> determinante(D), g_adjetival(ADJ), nombre(N).
+g_nominal(gn(D, N, ADJ)) --> determinante(D), nombre(N), g_adjetival(ADJ).
 g_nominal(gn(D, N)) --> determinante(D), nombre(N).
 g_nominal(gn(N)) --> nombrePropio(N).
 g_nominal(gn(N)) --> nombre(N).
-
+													
 g_verbal(gv(V1,PR1,V2,PR2,V3,ADJ)) --> verbo(V1), nexo(PR1), verbo(V2),nexo(PR2), verbo(V3), g_adjetival(ADJ).
 g_verbal(gv(V1,PR,V2, ADJ)) --> verbo(V1), nexo(PR), verbo(V2), g_adjetival(ADJ).
 g_verbal(gv(V1,PR,V2)) --> verbo(V1), nexo(PR), verbo(V2).
 
 g_verbal(gv(V,GPR)) --> verbo(V), g_preposicional(GPR).
 
-g_verbal(gv(V,GN,ADV,ORSUB)) --> verbo(V), g_nominal(GN), g_adverbial(ADV), orsubordinada(ORSUB).
+g_verbal(gv(V,GN,ADV,ADJ)) --> verbo(V), g_nominal(GN), g_adverbial(ADV), g_adjetival(ADJ).
+g_verbal(gv(V,GN,ADV)) --> verbo(V), g_nominal(GN), g_adverbial(ADV).
 
 g_verbal(gv(V,ADV,GPR)) --> verbo(V), g_adverbial(ADV), g_preposicional(GPR).
 g_verbal(gv(V,ADV)) --> verbo(V), g_adverbial(ADV).
@@ -85,7 +89,6 @@ g_verbal(gv(V,GN)) --> verbo(V), g_nominal(GN).
 g_verbal(gv(V)) --> verbo(V).
 
 g_adjetival(gadj(ADJ)) --> adjetivo(ADJ).
-g_adjetival(gadj(ADV,ADJ)) -->adverbio(ADV),adjetivo(ADJ).
 g_adjetival(gadj(CJ,OR)) --> conjunciones(CJ), orsubordinada(OR).
 
 g_adverbial(gadv(ADV1,ADV2)) --> adverbio(ADV1),adverbio(ADV2) .
