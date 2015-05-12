@@ -117,13 +117,18 @@
       (((vacia? l1)
        (lambda (no_use) vacia)
        (lambda (no_use)
-         ((construir
+         (((vacia? l2)
+          (lambda (no_use) vacia)
+          (lambda (no_use)
+            ((construir
            ((sument (cabeza l1)) (cabeza l2))) ((f (cola l1)) (cola l2)))
+            )) zero)
          )) zero) ;zero -> no_use
       )))) lista1) lista2)
       )
     )
   )
+;llamada recursiva
 ;unit test
 (list 2)
 (comprobar-lista ((sumar_listas lista-1) lista-1))
