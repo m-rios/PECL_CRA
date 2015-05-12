@@ -104,3 +104,31 @@
 (testenteros (suma-lista lista-1))
 (quote 3)
 (testenteros (suma-lista lista-2))
+
+;sumar dos listas (como vectores)____________________________________________________
+;definición
+(define sumar_listas
+  (lambda (lista1)
+    (lambda (lista2)
+       (((Y
+(lambda (f)
+  (lambda (l1)
+    (lambda(l2)
+      (((vacia? l1)
+       (lambda (no_use) vacia)
+       (lambda (no_use)
+         ((construir
+           ((sument (cabeza l1)) (cabeza l2))) ((f (cola l1)) (cola l2)))
+         )) zero) ;zero -> no_use
+      )))) lista1) lista2)
+      )
+    )
+  )
+;unit test
+(list 2)
+(comprobar-lista ((sumar_listas lista-1) lista-1))
+(list 2 4)
+(comprobar-lista ((sumar_listas lista-2) lista-2))
+(define lista-n ((construir tres) ((construir cinco) vacia)))
+(list 4 7)
+(comprobar-lista ((sumar_listas lista-2) lista-n))
