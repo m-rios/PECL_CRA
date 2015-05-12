@@ -86,8 +86,35 @@
 ((miembro? dos) lista-2)
 (quote false)
 ((miembro? dos) lista-1)
-;Hacer el reverse de cada lista_______________________________________________
 
+
+;máximo de una lista_________________________________________________________________
+(define maximo
+    (lambda (lista)
+      ((Y (lambda (f)
+               (lambda (l)
+                 (((vacia? (cola l))
+                  (lambda (no_use) (cabeza l))
+                  (lambda(no_use)
+                    ((((esmenoroigualent (cabeza l)) (cabeza (cola l)))
+                     (lambda (no_use) (f (cola l)))
+                     (lambda (no_use)
+                       (f ((construir (cabeza l)) (cola (cola l))))
+                       )
+                     )zero)
+                    )
+                  )zero))
+             )
+           )
+       lista)
+      )
+    
+  )
+;unit test:
+(testenteros (maximo lista-2))
+
+;Hacer el reverse de cada lista_______________________________________________
+ 
 ;Coger el último elemento de una lista
 (define last
     (lambda (l)
