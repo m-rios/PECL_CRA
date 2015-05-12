@@ -83,7 +83,24 @@
 ((miembro? dos) lista-2)
 (quote false)
 ((miembro? dos) lista-1)
-;____________________________________________________________________________________
 
-
-;> (vacia? lista-1)
+;sumar los elementos de una lista_______________________________________________
+(define suma-lista
+  (lambda (lista)
+    ((Y 
+ (lambda (f)
+   (lambda (l)
+     (((vacia? l)
+      (lambda (no_use) zero)
+      (lambda (no_use) 
+        ((sument (cabeza l)) (f (cola l)))))zero)
+    )))lista)
+    )
+  )
+;unit test
+(quote 0)
+(suma-lista lista-0)
+(quote 1)
+(testenteros (suma-lista lista-1))
+(quote 3)
+(testenteros (suma-lista lista-2))
