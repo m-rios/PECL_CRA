@@ -23,6 +23,9 @@
 
 (define lista-2 ((construir uno) ((construir dos) vacia)))
 
+(define lista-3 ((construir uno) ((construir dos) ((construir tres) ((construir cinco) ((construir ocho) vacia))))))
+
+
 ;hay que implementar longitud
 (define comprobar-lista (lambda (l)
     (if (= (comprobar (longitud l)) 0)
@@ -83,6 +86,67 @@
 ((miembro? dos) lista-2)
 (quote false)
 ((miembro? dos) lista-1)
+;Hacer el reverse de cada lista_______________________________________________
+
+;Coger el último elemento de una lista
+(define last
+    (lambda (l)
+        ((Y (lambda (f)
+            (lambda(x)
+                (((vacia? (cola x))
+                    (lambda (no_use)
+                        (cabeza x)
+                        )
+                    (lambda (no_use)
+                        (f (cola x))
+                        )
+                    )
+                zero) 
+                )
+            ))
+        l) 
+        )
+    )
+    
+; Coger todos los elementos 
+(define without-last
+    (lambda (l)
+        ((Y (lambda (f)
+            (lambda(x)
+                (((vacia? (cola x))
+                    (lambda (no_use)
+                        vacia
+                        )
+                    (lambda (no_use)
+                        ((construir (cabeza x)) (f (cola x)))
+                        )
+                    )
+                zero) 
+                )
+            ))
+        l) 
+        )
+    )
+
+;reverso de una lista
+(define reverse
+    (lambda (l)
+        ((Y (lambda (f)
+            (lambda(x)
+                (((vacia? x)
+                    (lambda (no_use)
+                        vacia
+                        )
+                    (lambda (no_use)
+                        ((construir (last x)) (f (without-last x)))
+                        )
+                    )
+                zero) 
+                )
+            ))
+        l) 
+        )
+    )
 
 ;sumar los elementos de una lista_______________________________________________
 (define suma-lista
