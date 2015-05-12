@@ -168,6 +168,36 @@
 (testenteros (suma-lista lista-1))
 (quote 3)
 (testenteros (suma-lista lista-2))
+;concatenar dos listas___________________________________________________________
+
+(define concatenar
+  (lambda (lista1)
+    (lambda (lista2)
+       (((Y
+(lambda (f)
+  (lambda (l1)
+    (lambda(l2)
+      (((vacia? l1)
+       (lambda (no_use)
+         (((vacia? l2)
+          (lambda (no_use) vacia)
+          (lambda (no_use)
+            ((construir
+           (cabeza l2)) ((f l1) (cola l2)))
+            )) zero)
+         )
+       (lambda (no_use)
+         ((construir (cabeza l1)) ((f (cola l1)) l2))
+         )) zero) ;zero -> no_use
+      )))) lista1) lista2)
+      )
+    )
+  )
+;llamada recursiva
+;unit test
+(comprobar-lista ((concatenar lista-3) lista-3))
+
+
 
 ;sumar dos listas (como vectores)____________________________________________________
 ;definición
