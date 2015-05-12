@@ -21,7 +21,7 @@
 
 (define lista-1 ((construir uno) vacia))
 
-(define lista-2 ((construir dos) ((construir uno) vacia)))
+(define lista-2 ((construir uno) ((construir dos) vacia)))
 
 ;hay que implementar longitud
 (define comprobar-lista (lambda (l)
@@ -48,7 +48,7 @@
         )
     )
 
-
+;test de pertenencia_________________________________________________________________
 (define miembro?
   (lambda (mem)
     (lambda (lista)
@@ -56,18 +56,19 @@
              (lambda (m)
                (lambda (l)
                  (((vacia? l)
+                   ;fin de la lista, no se ha encontrado
                   (lambda (no_use) false)
-                  ((lambda(no_use)
-                    (((esigualent (cabeza l))m)
-                     ;devolver true
+                  (lambda(no_use)
+                    ((((esigualent (cabeza l))m)
+                     ;se ha encontrado
                      (lambda (no_use) true)
-                     ;devolver miembro cola
+                     ;devolver miembro? m cola
                      (lambda (no_use)
-                       ((f (cola l))m)
+                       ((f m) (cola l))
                        )
-                     ) zero)
+                     )zero)
                     )
-                  ) zero))
+                  )zero))
                )
              )
            )mem)
@@ -75,8 +76,14 @@
       )
     )
   )
+;unit test:
+(quote false)
+((miembro? dos) lista-0)
+(quote true)
+((miembro? dos) lista-2)
+(quote false)
 ((miembro? dos) lista-1)
-
+;____________________________________________________________________________________
 
 
 ;> (vacia? lista-1)
