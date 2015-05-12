@@ -48,4 +48,35 @@
         )
     )
 
+
+(define miembro?
+  (lambda (mem)
+    (lambda (lista)
+      (((Y (lambda (f)
+             (lambda (m)
+               (lambda (l)
+                 (((vacia? l)
+                  (lambda (no_use) false)
+                  ((lambda(no_use)
+                    (((esigualent (cabeza l))m)
+                     ;devolver true
+                     (lambda (no_use) true)
+                     ;devolver miembro cola
+                     (lambda (no_use)
+                       ((f (cola l))m)
+                       )
+                     ) zero)
+                    )
+                  ) zero))
+               )
+             )
+           )mem)
+       lista)
+      )
+    )
+  )
+((miembro? dos) lista-1)
+
+
+
 ;> (vacia? lista-1)
