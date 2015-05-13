@@ -220,14 +220,12 @@
       )
     )
   )
-;llamada recursiva
 ;unit test
 (comprobar-lista ((concatenar lista-3) lista-3))
 
 
 
 ;sumar dos listas (como vectores)____________________________________________________
-;definición
 (define sumar_listas
   (lambda (lista1)
     (lambda (lista2)
@@ -249,7 +247,6 @@
       )
     )
   )
-;llamada recursiva
 ;unit test
 (list 2)
 (comprobar-lista ((sumar_listas lista-1) lista-1))
@@ -258,3 +255,24 @@
 (define lista-n ((construir tres) ((construir cinco) vacia)))
 (list 4 7)
 (comprobar-lista ((sumar_listas lista-2) lista-n))
+;inverso lista________________________________________________________________________
+(define inversa
+  (lambda (lista)
+    ((Y
+      (lambda (f)
+        (lambda (l)
+          (((vacia? l)
+            (lambda (no_use) vacia)
+            (lambda (no_use)
+              ((concatenar (f (cola l))) ((construir (cabeza l))vacia))
+              )
+            ) zero)
+          )
+        )
+      ) lista)
+    )
+  )
+(list 8 5 3 2 1)
+(comprobar-lista (inversa lista-3))
+(comprobar-lista (inversa lista-2))
+(comprobar-lista (inversa lista-0))
