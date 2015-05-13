@@ -25,6 +25,7 @@
 
 (define lista-3 ((construir uno) ((construir dos) ((construir tres) ((construir cinco) ((construir ocho) vacia))))))
 
+(define lista-4 ((construir uno) ((construir ocho) ((construir cinco) ((construir cinco) ((construir nueve) vacia))))))
 
 ;hay que implementar longitud
 (define comprobar-lista (lambda (l)
@@ -93,25 +94,56 @@
     (lambda (lista)
       ((Y (lambda (f)
                (lambda (l)
-                 (((vacia? (cola l))
-                  (lambda (no_use) (cabeza l))
+                 (((vacia?  l)
+                  (lambda (no_use)  zero)
                   (lambda(no_use)
-                    ((((esmenoroigualent (cabeza l)) (cabeza (cola l)))
-                     (lambda (no_use) (f (cola l)))
-                     (lambda (no_use)
+                    (((vacia? (cola l))
+                      (lambda (no_use) (cabeza l))
+                      (lambda(no_use)
+                        ((((esmenoroigualent (cabeza l)) (cabeza (cola l)))
+                          (lambda (no_use) (f (cola l)))
+                          (lambda (no_use)
                        (f ((construir (cabeza l)) (cola (cola l))))
                        )
                      )zero)
+                    )
+                  )zero)
                     )
                   )zero))
              )
            )
        lista)
       )
-    
   )
 ;unit test:
 (testenteros (maximo lista-2))
+
+;minimo de una lista_________________________________________________________________
+(define minimo
+    (lambda (lista)
+      ((Y (lambda (f)
+               (lambda (l)
+                 (((vacia?  l)
+                  (lambda (no_use)  zero)
+                  (lambda(no_use)
+                    (((vacia? (cola l))
+                      (lambda (no_use) (cabeza l))
+                      (lambda(no_use)
+                        ((((esmayoroigualent (cabeza l)) (cabeza (cola l)))
+                          (lambda (no_use) (f (cola l)))
+                          (lambda (no_use)
+                       (f ((construir (cabeza l)) (cola (cola l))))
+                       )
+                     )zero)
+                    )
+                  )zero)
+                    )
+                  )zero))
+             )
+           )
+       lista)
+      )
+  )
 
 ;Hacer el reverse de cada lista_______________________________________________
  
@@ -276,3 +308,65 @@
 (comprobar-lista (inversa lista-3))
 (comprobar-lista (inversa lista-2))
 (comprobar-lista (inversa lista-0))
+
+;borrado en lista________________________________________________________________________
+(define borrar
+  (lambda (mem)
+    (lambda (lista)
+      (((Y (lambda (f)
+             (lambda (m)
+               (lambda (l)
+                 (((vacia? l)
+                  (lambda (no_use) vacia)
+                  (lambda(no_use)
+                    ((((esigualent (cabeza l))m)
+                     (lambda (no_use) (cola l))
+                     (lambda (no_use)
+                       ((construir (cabeza l)) ((f m) (cola l)))
+                       )
+                     )zero)
+                    )
+                  )zero))
+               )
+             )
+           )mem)
+       lista)
+      )
+    )
+  )
+  
+;Ordenación mayor a menor en lista________________________________________________________________________
+(define mayoramenor
+  (lambda (lista)
+    ((Y 
+ (lambda (f)
+   (lambda (l)
+     (((vacia? l)
+      (lambda (no_use) vacia)
+      (lambda (no_use) 
+        ((construir (maximo l)) (f ((borrar (maximo l))l )) )))zero)
+    )))lista)
+    )
+  )
+  
+;Unit test
+(comprobar-lista (mayoramenor lista-4))
+
+;Ordenación menor a mayor en lista________________________________________________________________________
+
+(define menoramayor
+  (lambda (lista)
+    ((Y 
+ (lambda (f)
+   (lambda (l)
+     (((vacia? l)
+      (lambda (no_use) vacia)
+      (lambda (no_use) 
+        ((construir (minimo l)) (f ((borrar (minimo l))l )) )))zero)
+    )))lista)
+    )
+  )
+
+;Unit test
+(comprobar-lista (menoramayor lista-4))
+
