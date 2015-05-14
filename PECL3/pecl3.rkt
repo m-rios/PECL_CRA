@@ -23,9 +23,9 @@
 
 (define lista-2 ((construir uno) ((construir dos) vacia)))
 
-(define lista-3 ((construir uno) ((construir dos) ((construir tres) ((construir cinco) ((construir ocho) vacia))))))
+(define lista-3 ((construir -uno) ((construir dos) ((construir tres) ((construir -cinco) ((construir ocho) vacia))))))
 
-(define lista-4 ((construir uno) ((construir ocho) ((construir cinco) ((construir cinco) ((construir nueve) vacia))))))
+(define lista-4 ((construir -uno) ((construir -ocho) ((construir -cinco) ((construir cinco) ((construir nueve) vacia))))))
 
 ;hay que implementar longitud
 (define comprobar-lista (lambda (l)
